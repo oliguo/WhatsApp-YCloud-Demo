@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Template Message Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Form Section -->
+        <div class="form-section">
+            <h1>New Message Template</h1>
+            
+            <form id="templateForm" action="submit.php" method="POST">
+                <!-- Template Name and Category Row -->
+                <div class="row">
+                    <div class="form-group half">
+                        <label for="templateName">
+                            Template name 
+                            <span class="info-icon" title="Only support 0~9, lowercase a~z, and underscore(_)">ⓘ</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="text" 
+                                id="templateName" 
+                                name="template_name" 
+                                pattern="[0-9a-z_]+" 
+                                maxlength="512" 
+                                placeholder="template_marketing_20260114112202" 
+                                required>
+                            <span class="counter"><span id="nameCount">0</span>/512</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group half">
+                        <label for="category">
+                            Category 
+                            <span class="info-icon" title="Select message category">ⓘ</span>
+                        </label>
+                        <select id="category" name="category" required>
+                            <optgroup label="Utility">
+                                <option value="utility_custom">Custom</option>
+                                <option value="utility_calling_request">Calling request</option>
+                                <option value="utility_order_details">WhatsApp order details</option>
+                                <option value="utility_order_status">WhatsApp order status</option>
+                            </optgroup>
+                            <optgroup label="Marketing">
+                                <option value="marketing_custom" selected>Marketing(Custom)</option>
+                                <option value="marketing_carousel">Media card carousel</option>
+                                <option value="marketing_limited_offer">Limited-time offer</option>
+                                <option value="marketing_calling_request">Calling request</option>
+                                <option value="marketing_order_details">WhatsApp order details</option>
+                                <option value="marketing_single_checkout">Single product checkout</option>
+                            </optgroup>
+                            <optgroup label="Authentication">
+                                <option value="authentication_custom">Custom</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Language Selection -->
+                <div class="language-section">
+                    <div class="language-tabs">
+                        <button type="button" class="lang-tab active" data-lang="en">English</button>
+                        <button type="button" class="lang-tab" data-lang="zh-hk">
+                            Chinese (HKG) <span class="required-dot">●</span>
+                        </button>
+                        <button type="button" class="lang-tab" data-lang="zh-cn">
+                            Chinese (CHN) <span class="required-dot">●</span>
+                        </button>
+                    </div>
+                    <button type="button" class="ai-translate-btn">✨ AI Translation</button>
+                </div>
+
+                <!-- English Language Content -->
+                <div class="lang-content active" data-lang="en">
+                    <!-- Header -->
+                    <div class="form-group">
+                        <label for="header_en">
+                            Header 
+                            <span class="info-icon" title="Optional header">ⓘ</span>
+                        </label>
+                        <select id="header_en" name="header_type_en" class="header-select">
+                            <option value="none">None</option>
+                            <option value="text">Text</option>
+                            <option value="media">Media</option>
+                            <option value="location">Location</option>
+                        </select>
+                        <div class="header-text-container" style="display: none;">
+                            <input 
+                                type="text" 
+                                name="header_text_en" 
+                                class="header-text-input" 
+                                placeholder="Please enter">
+                            <button type="button" class="var-btn">+ Variables</button>
+                        </div>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="form-group">
+                        <label for="body_en">
+                            Body (Required) 
+                            <span class="info-icon" title="Message body is required">ⓘ</span>
+                        </label>
+                        <div class="toolbar">
+                            <button type="button" class="tool-btn" data-format="bold" title="Bold"><b>B</b></button>
+                            <button type="button" class="tool-btn" data-format="emoji" title="Emoji">☺</button>
+                            <button type="button" class="tool-btn" data-format="italic" title="Italic"><i>I</i></button>
+                            <button type="button" class="tool-btn" data-format="strike" title="Strikethrough"><s>S</s></button>
+                            <button type="button" class="tool-btn" data-format="code" title="Monospace">&lt;/&gt;</button>
+                            <button type="button" class="var-btn">+ Variables</button>
+                        </div>
+                        <div class="editor-wrapper">
+                            <textarea 
+                                id="body_en" 
+                                name="body_en" 
+                                class="body-editor" 
+                                maxlength="1024" 
+                                placeholder="Enter text in English" 
+                                required></textarea>
+                            <span class="counter"><span class="body-count">0</span>/1024</span>
+                        </div>
+                        <div class="error-message" style="display: none;">⚠ Required</div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="form-group">
+                        <label for="footer_en">
+                            Footer 
+                            <span class="info-icon" title="Optional footer text">ⓘ</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="text" 
+                                id="footer_en" 
+                                name="footer_en" 
+                                maxlength="60" 
+                                placeholder="Please enter">
+                            <span class="counter"><span class="footer-count">0</span>/60</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chinese (HKG) Language Content -->
+                <div class="lang-content" data-lang="zh-hk">
+                    <div class="form-group">
+                        <label>Header <span class="info-icon">ⓘ</span></label>
+                        <select name="header_type_zh_hk" class="header-select">
+                            <option value="none">None</option>
+                            <option value="text">Text</option>
+                            <option value="media">Media</option>
+                            <option value="location">Location</option>
+                        </select>
+                        <div class="header-text-container" style="display: none;">
+                            <input type="text" name="header_text_zh_hk" placeholder="請輸入">
+                            <button type="button" class="var-btn">+ Variables</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Body (Required) <span class="info-icon">ⓘ</span></label>
+                        <div class="toolbar">
+                            <button type="button" class="tool-btn" data-format="bold"><b>B</b></button>
+                            <button type="button" class="tool-btn" data-format="emoji">☺</button>
+                            <button type="button" class="tool-btn" data-format="italic"><i>I</i></button>
+                            <button type="button" class="tool-btn" data-format="strike"><s>S</s></button>
+                            <button type="button" class="tool-btn" data-format="code">&lt;/&gt;</button>
+                            <button type="button" class="var-btn">+ Variables</button>
+                        </div>
+                        <div class="editor-wrapper">
+                            <textarea name="body_zh_hk" class="body-editor" maxlength="1024" placeholder="輸入繁體中文" required></textarea>
+                            <span class="counter"><span class="body-count">0</span>/1024</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Footer <span class="info-icon">ⓘ</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" name="footer_zh_hk" maxlength="60" placeholder="請輸入">
+                            <span class="counter"><span class="footer-count">0</span>/60</span>
+                        </div>
+                    </div>
+                </div>
+
+<!-- CONTINUE TO PART 2 -->
+                <!-- Chinese (CHN) Language Content -->
+                <div class="lang-content" data-lang="zh-cn">
+                    <div class="form-group">
+                        <label>Header <span class="info-icon">ⓘ</span></label>
+                        <select name="header_type_zh_cn" class="header-select">
+                            <option value="none">None</option>
+                            <option value="text">Text</option>
+                            <option value="media">Media</option>
+                            <option value="location">Location</option>
+                        </select>
+                        <div class="header-text-container" style="display: none;">
+                            <input type="text" name="header_text_zh_cn" placeholder="请输入">
+                            <button type="button" class="var-btn">+ Variables</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Body (Required) <span class="info-icon">ⓘ</span></label>
+                        <div class="toolbar">
+                            <button type="button" class="tool-btn" data-format="bold"><b>B</b></button>
+                            <button type="button" class="tool-btn" data-format="emoji">☺</button>
+                            <button type="button" class="tool-btn" data-format="italic"><i>I</i></button>
+                            <button type="button" class="tool-btn" data-format="strike"><s>S</s></button>
+                            <button type="button" class="tool-btn" data-format="code">&lt;/&gt;</button>
+                            <button type="button" class="var-btn">+ Variables</button>
+                        </div>
+                        <div class="editor-wrapper">
+                            <textarea name="body_zh_cn" class="body-editor" maxlength="1024" placeholder="输入简体中文" required></textarea>
+                            <span class="counter"><span class="body-count">0</span>/1024</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Footer <span class="info-icon">ⓘ</span></label>
+                        <div class="input-wrapper">
+                            <input type="text" name="footer_zh_cn" maxlength="60" placeholder="请输入">
+                            <span class="counter"><span class="footer-count">0</span>/60</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buttons Section -->
+                <div class="form-group">
+                    <label>
+                        Buttons 
+                        <span class="info-icon" title="Add action buttons">ⓘ</span>
+                    </label>
+                    <div id="buttonsContainer"></div>
+                    <select id="addButton" class="add-button-select">
+                        <option value="">+ Add Button (0/10)</option>
+                        <option value="quick_reply">Quick reply</option>
+                        <option value="custom">Custom (up to 10)</option>
+                        <optgroup label="Call to action">
+                            <option value="call_phone">Call phone number (up to 1)</option>
+                            <option value="visit_website">Visit website (up to 2)</option>
+                            <option value="copy_offer">Copy offer code (up to 1)</option>
+                            <option value="whatsapp_flow">WhatsApp Flow (up to 1)</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <!-- Advanced Settings -->
+                <div class="form-group">
+                    <h3>Advanced settings</h3>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="messageValidity" name="message_validity">
+                        <span class="toggle-switch"></span>
+                        <span>Message validity period</span>
+                        <span class="info-icon" title="Set message expiration time">ⓘ</span>
+                    </label>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Submit</button>
+                    <button type="button" class="btn-cancel">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- WhatsApp Preview Section -->
+        <div class="preview-section">
+            <div class="phone-mockup">
+                <div class="phone-header">
+                    <span class="phone-time">9:41</span>
+                    <div class="phone-status-icons">
+                        <span>📶 📶 🔋</span>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="whatsapp-message">
+                        <div id="previewHeader" class="preview-header"></div>
+                        <div id="previewBody" class="preview-body"></div>
+                        <div id="previewFooter" class="preview-footer"></div>
+                        <div id="previewButtons" class="preview-buttons"></div>
+                        <div class="message-time">11:22 AM</div>
+                    </div>
+                </div>
+                <div class="phone-footer">
+                    <span class="emoji-btn">☺</span>
+                    <input type="text" placeholder="Type a message" readonly>
+                    <button class="send-icon">➤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Variable Modal -->
+    <div id="variableModal" class="modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <h3>+ Variables</h3>
+            <p>Adding a variable creates a personalized link for the customer to view their info. Only one variable can be added to the end of a URL.</p>
+            <div class="modal-form-group">
+                <label>
+                    Variable Name 
+                    <span class="info-icon">ⓘ</span>
+                </label>
+                <input type="text" id="variableName" placeholder="Enter name">
+            </div>
+            <div class="modal-form-group">
+                <label>
+                    Add Sample 
+                    <span class="info-icon">ⓘ</span>
+                </label>
+                <input type="text" id="variableSample" placeholder="Enter content">
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" id="cancelVariable">Cancel</button>
+                <button type="button" class="btn-ok" id="okVariable">Ok</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
