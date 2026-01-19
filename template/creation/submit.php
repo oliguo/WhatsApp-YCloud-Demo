@@ -1,4 +1,304 @@
 <?php
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
+header('Content-Type: text/html; charset=utf-8');
+
+function respond($payload, $httpCode = 200) {
+	http_response_code($httpCode);
+	echo '<pre>' . htmlspecialchars(json_encode($payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES), ENT_QUOTES, 'UTF-8') . '</pre>';
+	exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+	respond([
+		'error' => 'POST required',
+		'hint' => 'Submit the form from template/creation/index.html'
+	], 405);
+}
+
+$apiKey = isset($_POST['api_key']) && trim($_POST['api_key']) !== '' ? trim($_POST['api_key']) : getenv('YCLOUD_API_KEY');
+$wabaId = isset($_POST['waba_id']) && trim($_POST['waba_id']) !== '' ? trim($_POST['waba_id']) : getenv('YCLOUD_WABA_ID');
+
+if (!$apiKey || !$wabaId) {
+	respond([
+		'error' => 'Missing YCloud credentials',
+		'required_env' => ['YCLOUD_API_KEY', 'YCLOUD_WABA_ID']
+	], 400);
+}
+
+$templateName = isset($_POST['template_name']) ? trim($_POST['template_name']) : '';
+$categoryRaw = isset($_POST['category']) ? trim($_POST['category']) : '';
+
+if ($templateName === '') {
+	respond(['error' => 'Template name is required.'], 400);
+}
+
+if ($categoryRaw === '') {
+	respond(['error' => 'Category is required.'], 400);
+}
+
+// Map UI category to YCloud category / subCategory
+$category = null;
+$subCategory = null;
+
+if (strpos($categoryRaw, 'marketing') === 0) {
+	$category = 'MARKETING';
+} elseif (strpos($categoryRaw, 'utility') === 0) {
+	$category = 'UTILITY';
+} elseif (strpos($categoryRaw, 'authentication') === 0) {
+	$category = 'AUTHENTICATION';
+}
+
+if (strpos($categoryRaw, 'order_status') !== false) {
+	$subCategory = 'ORDER_STATUS';
+}
+
+if (!$category) {
+	respond(['error' => 'Unknown category value.', 'value' => $categoryRaw], 400);
+}
+
+function findVariables($text) {
+	if (!$text) {
+		return [];
+	}
+	preg_match_all('/\{\{\s*([^}]+)\s*\}\}/', $text, $matches);
+	return $matches[1] ?? [];
+}
+
+function buildExamplesForText($text, $sampleMap = []) {
+	$vars = findVariables($text);
+	if (empty($vars)) {
+		return null;
+	}
+
+	$examples = [];
+	$index = 1;
+	foreach ($vars as $var) {
+		$trimmed = trim($var);
+		if (isset($sampleMap[$trimmed]) && $sampleMap[$trimmed] !== '') {
+			$examples[] = $sampleMap[$trimmed];
+		} else {
+			$examples[] = "sample{$index}";
+		}
+		$index++;
+	}
+
+	return $examples;
+}
+
+function normalizeUrlWithVariable($url, $isDynamic) {
+	if (!$url) {
+		return $url;
+	}
+	if ($isDynamic && strpos($url, '{{') === false) {
+		return rtrim($url, '/') . '{{1}}';
+	}
+	return $url;
+}
+
+function applySamplesToText($text, $sampleMap = []) {
+	if (!$text) {
+		return $text;
+	}
+	$vars = findVariables($text);
+	if (empty($vars)) {
+		return $text;
+	}
+
+	$replaced = $text;
+	$index = 1;
+	foreach ($vars as $var) {
+		$trimmed = trim($var);
+		$sample = isset($sampleMap[$trimmed]) && $sampleMap[$trimmed] !== '' ? $sampleMap[$trimmed] : "sample{$index}";
+		$replaced = preg_replace('/\{\{\s*' . preg_quote($trimmed, '/') . '\s*\}\}/', $sample, $replaced, 1);
+		$index++;
+	}
+
+	return $replaced;
+}
+
+function extractButtonsFromPost($post, $sampleMap = []) {
+	$buttons = [];
+
+	foreach ($post as $key => $value) {
+		if (strpos($key, 'button_text_') === 0) {
+			$index = substr($key, strlen('button_text_'));
+			$text = trim($value);
+
+			if ($text === '') {
+				continue;
+			}
+
+			$button = [
+				'type' => 'QUICK_REPLY',
+				'text' => $text
+			];
+
+			$phoneKey = 'button_phone_' . $index;
+			$urlKey = 'button_url_' . $index;
+			$urlTypeKey = 'url_type_' . $index;
+			$codeKey = 'button_code_' . $index;
+			$flowKey = 'button_flow_' . $index;
+
+			if (!empty($post[$phoneKey])) {
+				$button['type'] = 'PHONE_NUMBER';
+				$button['phone_number'] = trim($post[$phoneKey]);
+			} elseif (!empty($post[$urlKey])) {
+				$button['type'] = 'URL';
+				$urlType = isset($post[$urlTypeKey]) ? $post[$urlTypeKey] : 'static';
+				$isDynamic = $urlType === 'dynamic';
+				$normalizedUrl = normalizeUrlWithVariable(trim($post[$urlKey]), $isDynamic);
+				$button['url'] = $normalizedUrl;
+
+				$sampleUrl = applySamplesToText($normalizedUrl, $sampleMap);
+				if ($sampleUrl !== $normalizedUrl) {
+					$button['example'] = [$sampleUrl];
+				}
+			} elseif (!empty($post[$codeKey])) {
+				$button['type'] = 'COPY_CODE';
+				$button['text'] = $text;
+			} elseif (!empty($post[$flowKey])) {
+				$button['type'] = 'FLOW';
+				$button['flow_id'] = trim($post[$flowKey]);
+			}
+
+			$buttons[] = $button;
+		}
+	}
+
+	return $buttons;
+}
+
+$languages = [
+	'en' => 'body_en',
+	'zh-hk' => 'body_zh_hk',
+	'zh-cn' => 'body_zh_cn'
+];
+
+$buttons = [];
+
+$requests = [];
+
+foreach ($languages as $langCode => $bodyKey) {
+	$bodyText = isset($_POST[$bodyKey]) ? trim($_POST[$bodyKey]) : '';
+	if ($bodyText === '') {
+		continue;
+	}
+
+	$sampleKey = 'variable_samples_' . str_replace('-', '_', $langCode);
+	$sampleMap = [];
+	if (!empty($_POST[$sampleKey])) {
+		$decodedSamples = json_decode($_POST[$sampleKey], true);
+		if (is_array($decodedSamples)) {
+			$sampleMap = $decodedSamples;
+		}
+	}
+
+	$components = [];
+
+	$headerTypeKey = 'header_type_' . str_replace('-', '_', $langCode);
+	$headerTextKey = 'header_text_' . str_replace('-', '_', $langCode);
+	$footerKey = 'footer_' . str_replace('-', '_', $langCode);
+
+	$headerType = isset($_POST[$headerTypeKey]) ? $_POST[$headerTypeKey] : 'none';
+	$headerText = isset($_POST[$headerTextKey]) ? trim($_POST[$headerTextKey]) : '';
+
+	if ($headerType === 'text' && $headerText !== '') {
+		$headerComponent = [
+			'type' => 'HEADER',
+			'format' => 'TEXT',
+			'text' => $headerText
+		];
+
+		$headerExamples = buildExamplesForText($headerText, $sampleMap);
+		if ($headerExamples) {
+			$headerComponent['example'] = [
+				'header_text' => [$headerExamples[0]]
+			];
+		}
+
+		$components[] = $headerComponent;
+	}
+
+	$bodyComponent = [
+		'type' => 'BODY',
+		'text' => $bodyText
+	];
+
+	$bodyExamples = buildExamplesForText($bodyText, $sampleMap);
+	if ($bodyExamples) {
+		$bodyComponent['example'] = [
+			'body_text' => [$bodyExamples]
+		];
+	}
+
+	$components[] = $bodyComponent;
+
+	$footerText = isset($_POST[$footerKey]) ? trim($_POST[$footerKey]) : '';
+	if ($footerText !== '') {
+		$components[] = [
+			'type' => 'FOOTER',
+			'text' => $footerText
+		];
+	}
+
+	if (empty($buttons)) {
+		$buttons = extractButtonsFromPost($_POST, $sampleMap);
+	}
+
+	if (!empty($buttons)) {
+		$components[] = [
+			'type' => 'BUTTONS',
+			'buttons' => $buttons
+		];
+	}
+
+	$payload = [
+		'wabaId' => $wabaId,
+		'name' => $templateName,
+		'language' => $langCode,
+		'category' => $category,
+		'components' => $components
+	];
+
+	if ($subCategory) {
+		$payload['subCategory'] = $subCategory;
+	}
+
+	$requests[] = $payload;
+}
+
+if (empty($requests)) {
+	respond(['error' => 'No language body content provided.'], 400);
+}
+
+$results = [];
+
+foreach ($requests as $payload) {
+	$ch = curl_init('https://api.ycloud.com/v2/whatsapp/templates');
+	curl_setopt($ch, CURLOPT_POST, true);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, [
+		'Content-Type: application/json',
+		'X-API-Key: ' . $apiKey
+	]);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+
+	$response = curl_exec($ch);
+	$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	$error = curl_error($ch);
+	curl_close($ch);
+
+	$decoded = json_decode($response, true);
+
+	$results[] = [
+		'language' => $payload['language'],
+		'request' => $payload,
+		'httpCode' => $httpCode,
+		'response' => $decoded ?: $response,
+		'error' => $error ?: null
+	];
+}
+
+respond([
+	'submitted' => count($results),
+	'results' => $results
+]);

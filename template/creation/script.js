@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeButtons();
     initializePreview();
     initializeFormSubmission();
+    initializeVariableTracking();
 });
 
 // Character Counter Functionality
@@ -139,6 +140,40 @@ function initializeToolbar() {
     });
 }
 
+// Track last focused input for variable insertion
+let activeVariableTarget = null;
+
+function initializeVariableTracking() {
+    const editors = document.querySelectorAll('.body-editor');
+    const headerInputs = document.querySelectorAll('input[name^="header_text_"]');
+    const urlInputs = document.querySelectorAll('input[name^="button_url_"]');
+    const buttonTextInputs = document.querySelectorAll('input[name^="button_text_"]');
+
+    editors.forEach(editor => {
+        editor.addEventListener('focus', function() {
+            activeVariableTarget = this;
+        });
+    });
+
+    headerInputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            activeVariableTarget = this;
+        });
+    });
+
+    urlInputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            activeVariableTarget = this;
+        });
+    });
+
+    buttonTextInputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            activeVariableTarget = this;
+        });
+    });
+}
+
 // Insert WhatsApp formatting characters
 function insertFormatting(textarea, format) {
     const start = textarea.selectionStart;
@@ -236,25 +271,34 @@ document.addEventListener('DOMContentLoaded', function() {
             if (varName) {
                 // Find active language content
                 const activeContent = document.querySelector('.lang-content.active');
-                const textarea = activeContent.querySelector('.body-editor');
-                
-                if (textarea) {
+                const lang = activeContent ? activeContent.getAttribute('data-lang') : 'en';
+
+                const target = activeVariableTarget || (activeContent ? activeContent.querySelector('.body-editor') : null);
+
+                if (target) {
                     // Insert variable placeholder
                     const variableText = `{{${varName}}}`;
-                    const cursorPos = textarea.selectionStart;
-                    const beforeText = textarea.value.substring(0, cursorPos);
-                    const afterText = textarea.value.substring(cursorPos);
+                    const cursorPos = target.selectionStart || 0;
+                    const beforeText = target.value.substring(0, cursorPos);
+                    const afterText = target.value.substring(cursorPos);
                     
-                    textarea.value = beforeText + variableText + afterText;
-                    textarea.focus();
+                    target.value = beforeText + variableText + afterText;
+                    target.focus();
                     
-                    // Update counter and preview
-                    const counter = textarea.closest('.editor-wrapper').querySelector('.body-count');
-                    if (counter) {
-                        counter.textContent = textarea.value.length;
+                    // Update counter and preview for body editor
+                    const editorWrapper = target.closest('.editor-wrapper');
+                    if (editorWrapper) {
+                        const counter = editorWrapper.querySelector('.body-count');
+                        if (counter) {
+                            counter.textContent = target.value.length;
+                        }
                     }
                     
                     updatePreview();
+                }
+
+                if (varSample) {
+                    updateVariableSamples(lang, varName, varSample);
                 }
             }
             
@@ -262,6 +306,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+function updateVariableSamples(lang, varName, varSample) {
+    const hiddenInput = document.querySelector(`.variable-samples[data-lang="${lang}"]`);
+    if (!hiddenInput) return;
+
+    let current = {};
+    try {
+        current = JSON.parse(hiddenInput.value || '{}');
+    } catch (e) {
+        current = {};
+    }
+
+    current[varName] = varSample;
+    hiddenInput.value = JSON.stringify(current);
+}
 
 // END OF PART 2
 // ============================================

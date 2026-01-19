@@ -13,6 +13,37 @@
             <h1>New Message Template</h1>
             
             <form id="templateForm" action="submit.php" method="POST">
+                <!-- API Credentials Row -->
+                <div class="row">
+                    <div class="form-group half">
+                        <label for="apiKey">
+                            YCloud API Key
+                            <span class="info-icon" title="Optional: uses server env YCOUD_API_KEY if empty">ⓘ</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input
+                                type="password"
+                                id="apiKey"
+                                name="api_key"
+                                placeholder="X-API-Key"
+                                autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group half">
+                        <label for="wabaId">
+                            WABA ID
+                            <span class="info-icon" title="Optional: uses server env YCLOUD_WABA_ID if empty">ⓘ</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input
+                                type="text"
+                                id="wabaId"
+                                name="waba_id"
+                                placeholder="whatsapp-business-account-id">
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Template Name and Category Row -->
                 <div class="row">
                     <div class="form-group half">
@@ -76,6 +107,7 @@
 
                 <!-- English Language Content -->
                 <div class="lang-content active" data-lang="en">
+                    <input type="hidden" name="variable_samples_en" class="variable-samples" data-lang="en" value="{}">
                     <!-- Header -->
                     <div class="form-group">
                         <label for="header_en">
@@ -145,6 +177,7 @@
 
                 <!-- Chinese (HKG) Language Content -->
                 <div class="lang-content" data-lang="zh-hk">
+                    <input type="hidden" name="variable_samples_zh_hk" class="variable-samples" data-lang="zh-hk" value="{}">
                     <div class="form-group">
                         <label>Header <span class="info-icon">ⓘ</span></label>
                         <select name="header_type_zh_hk" class="header-select">
@@ -185,6 +218,7 @@
 <!-- CONTINUE TO PART 2 -->
                 <!-- Chinese (CHN) Language Content -->
                 <div class="lang-content" data-lang="zh-cn">
+                    <input type="hidden" name="variable_samples_zh_cn" class="variable-samples" data-lang="zh-cn" value="{}">
                     <div class="form-group">
                         <label>Header <span class="info-icon">ⓘ</span></label>
                         <select name="header_type_zh_cn" class="header-select">
