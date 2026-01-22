@@ -187,8 +187,8 @@ function insertFormatting(textarea, format) {
     
     switch(format) {
         case 'bold':
-            formattedText = `**${selectedText}**`;
-            cursorOffset = selectedText ? 0 : 2;
+            formattedText = `*${selectedText}*`;
+            cursorOffset = selectedText ? 0 : 1;
             break;
         case 'italic':
             formattedText = `_${selectedText}_`;
@@ -573,8 +573,8 @@ function updatePreview() {
         // Convert WhatsApp formatting to HTML
         let formattedText = bodyTextarea.value;
         
-        // Bold **text**
-        formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        // Bold *text*
+        formattedText = formattedText.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
         
         // Italic _text_
         formattedText = formattedText.replace(/_(.*?)_/g, '<em>$1</em>');
@@ -583,7 +583,7 @@ function updatePreview() {
         formattedText = formattedText.replace(/~(.*?)~/g, '<s>$1</s>');
         
         // Code ```text```
-        formattedText = formattedText.replace(/```(.*?)```/g, 'de>$1</code>');
+        formattedText = formattedText.replace(/```([\s\S]*?)```/g, '<code>$1</code>');
         
         previewBody.innerHTML = formattedText;
         previewBody.style.display = 'block';

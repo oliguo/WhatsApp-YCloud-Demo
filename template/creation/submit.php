@@ -168,22 +168,25 @@ function extractButtonsFromPost($post, $sampleMap = []) {
 }
 
 $languages = [
-	'en' => 'body_en',
-	'zh-hk' => 'body_zh_hk',
-	'zh-cn' => 'body_zh_cn'
+	['code' => 'en', 'suffix' => 'en'],
+	['code' => 'zh_HK', 'suffix' => 'zh_hk'],
+	['code' => 'zh_CN', 'suffix' => 'zh_cn']
 ];
 
 $buttons = [];
 
 $requests = [];
 
-foreach ($languages as $langCode => $bodyKey) {
+foreach ($languages as $lang) {
+	$langCode = $lang['code'];
+	$langSuffix = $lang['suffix'];
+	$bodyKey = 'body_' . $langSuffix;
 	$bodyText = isset($_POST[$bodyKey]) ? trim($_POST[$bodyKey]) : '';
 	if ($bodyText === '') {
 		continue;
 	}
 
-	$sampleKey = 'variable_samples_' . str_replace('-', '_', $langCode);
+	$sampleKey = 'variable_samples_' . $langSuffix;
 	$sampleMap = [];
 	if (!empty($_POST[$sampleKey])) {
 		$decodedSamples = json_decode($_POST[$sampleKey], true);
@@ -194,9 +197,9 @@ foreach ($languages as $langCode => $bodyKey) {
 
 	$components = [];
 
-	$headerTypeKey = 'header_type_' . str_replace('-', '_', $langCode);
-	$headerTextKey = 'header_text_' . str_replace('-', '_', $langCode);
-	$footerKey = 'footer_' . str_replace('-', '_', $langCode);
+	$headerTypeKey = 'header_type_' . $langSuffix;
+	$headerTextKey = 'header_text_' . $langSuffix;
+	$footerKey = 'footer_' . $langSuffix;
 
 	$headerType = isset($_POST[$headerTypeKey]) ? $_POST[$headerTypeKey] : 'none';
 	$headerText = isset($_POST[$headerTextKey]) ? trim($_POST[$headerTextKey]) : '';
