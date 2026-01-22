@@ -3,99 +3,110 @@
    ============================================ */
 
 /* Reset and Base Styles */
-* {
+#ycloud-template-builder * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
+#ycloud-template-builder {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
-    background-color: #f5f6f8;
-    color: #333;
+    background-color: #f7f7f8;
+    color: #0f172a;
     line-height: 1.6;
 }
 
 /* Container Layout */
-.container {
+#ycloud-template-builder .container {
     display: flex;
-    max-width: 1400px;
-    margin: 20px auto;
-    gap: 30px;
-    padding: 0 20px;
+    max-width: 1200px;
+    margin: 24px auto;
+    gap: 24px;
+    padding: 0 20px 40px;
 }
 
 /* Form Section */
-.form-section {
+#ycloud-template-builder .form-section {
     flex: 1;
     background: #ffffff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 28px;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
     min-width: 600px;
 }
 
-.form-section h1 {
-    font-size: 24px;
+#ycloud-template-builder .form-section h1 {
+    font-size: 22px;
     font-weight: 600;
-    margin-bottom: 25px;
-    color: #1a1a1a;
+    margin-bottom: 20px;
+    color: #0f172a;
 }
 
 /* Form Groups */
-.row {
+#ycloud-template-builder .row {
     display: flex;
-    gap: 20px;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+#ycloud-template-builder .form-group {
     margin-bottom: 20px;
 }
 
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group.half {
+#ycloud-template-builder .form-group.half {
     flex: 1;
 }
 
-label {
+#ycloud-template-builder label {
     display: block;
     margin-bottom: 8px;
-    font-weight: 500;
-    font-size: 14px;
-    color: #333;
+    font-weight: 600;
+    font-size: 13px;
+    color: #1f2937;
 }
 
-.info-icon {
+#ycloud-template-builder .info-icon {
     color: #999;
     cursor: help;
     font-size: 14px;
 }
 
 /* Input Styles */
-input[type="text"],
-select,
-textarea {
+#ycloud-template-builder input[type="text"],
+#ycloud-template-builder input[type="password"],
+#ycloud-template-builder input[type="url"],
+#ycloud-template-builder input[type="number"],
+#ycloud-template-builder input[type="tel"],
+#ycloud-template-builder select,
+#ycloud-template-builder textarea {
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    padding: 12px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
     font-size: 14px;
     font-family: inherit;
-    transition: border-color 0.3s;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-input[type="text"]:focus,
-select:focus,
-textarea:focus {
+#ycloud-template-builder input[type="text"]:focus,
+#ycloud-template-builder input[type="password"]:focus,
+#ycloud-template-builder input[type="url"]:focus,
+#ycloud-template-builder input[type="number"]:focus,
+#ycloud-template-builder input[type="tel"]:focus,
+#ycloud-template-builder select:focus,
+#ycloud-template-builder textarea:focus {
     outline: none;
-    border-color: #5b5fc7;
+    border-color: #10a37f;
+    box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.15);
 }
 
-.input-wrapper {
+#ycloud-template-builder .input-wrapper {
     position: relative;
 }
 
-.counter {
+#ycloud-template-builder .counter {
     position: absolute;
     right: 12px;
     top: 50%;
@@ -106,122 +117,154 @@ textarea:focus {
 }
 
 /* Language Section */
-.language-section {
+#ycloud-template-builder .language-section {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 20px 0;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eef2f6;
+    gap: 12px;
+}
+
+#ycloud-template-builder .language-selectors {
+    display: flex;
     align-items: center;
-    margin: 25px 0;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #f0f0f0;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
-.language-tabs {
+#ycloud-template-builder .language-select-label {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+#ycloud-template-builder .language-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #1f2937;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    padding: 6px 10px;
+}
+
+#ycloud-template-builder .language-option input {
+    accent-color: #5b5fc7;
+}
+
+#ycloud-template-builder .language-tabs {
     display: flex;
-    gap: 5px;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
-.lang-tab {
-    background: transparent;
-    border: none;
-    padding: 10px 20px;
+#ycloud-template-builder .lang-tab {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    padding: 8px 14px;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    color: #666;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -12px;
-    transition: all 0.3s;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    border-radius: 999px;
+    transition: all 0.2s;
 }
 
-.lang-tab:hover {
-    color: #5b5fc7;
+#ycloud-template-builder .lang-tab:hover {
+    color: #0f172a;
+    border-color: #cbd5e1;
 }
 
-.lang-tab.active {
-    color: #5b5fc7;
-    border-bottom-color: #5b5fc7;
+#ycloud-template-builder .lang-tab.active {
+    color: #0f172a;
+    border-color: #10a37f;
+    background: rgba(16, 163, 127, 0.08);
 }
 
-.required-dot {
+#ycloud-template-builder .required-dot {
     color: #f44336;
     font-size: 10px;
     margin-left: 2px;
 }
 
-.ai-translate-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+#ycloud-template-builder .ai-translate-btn {
+    background: #10a37f;
     color: white;
     border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
+    padding: 8px 14px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    transition: transform 0.2s;
+    font-size: 12px;
+    font-weight: 600;
+    transition: background 0.2s;
 }
 
-.ai-translate-btn:hover {
-    transform: translateY(-2px);
+#ycloud-template-builder .ai-translate-btn:hover {
+    background: #0f8f6f;
 }
 
 /* Language Content */
-.lang-content {
+#ycloud-template-builder .lang-content {
     display: none;
 }
 
-.lang-content.active {
+#ycloud-template-builder .lang-content.active {
     display: block;
 }
 
 /* Header Section */
-.header-select {
+#ycloud-template-builder .header-select {
     margin-bottom: 10px;
 }
 
-.header-text-container {
+#ycloud-template-builder .header-text-container {
     display: flex;
     gap: 10px;
     align-items: center;
     margin-top: 10px;
 }
 
-.header-media-container {
+#ycloud-template-builder .header-media-container {
     display: flex;
     gap: 10px;
     align-items: center;
     margin-top: 10px;
 }
 
-.header-media-container select,
-.header-media-container input {
+#ycloud-template-builder .header-media-container select,
+#ycloud-template-builder .header-media-container input {
     flex: 1;
 }
 
-.header-location-container {
+#ycloud-template-builder .header-location-container {
     margin-top: 10px;
 }
 
-.location-grid {
+#ycloud-template-builder .location-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
 }
 
-.header-location-container input {
+#ycloud-template-builder .header-location-container input {
     width: 100%;
 }
 
-.header-location-container input::placeholder {
+#ycloud-template-builder .header-location-container input::placeholder {
     color: #9aa0a6;
 }
 
-.location-grid input:nth-child(1),
-.location-grid input:nth-child(2) {
+#ycloud-template-builder .location-grid input:nth-child(1),
+#ycloud-template-builder .location-grid input:nth-child(2) {
     grid-column: span 2;
 }
 
 /* Location header preview */
-.preview-header.location-header {
+#ycloud-template-builder .preview-header.location-header {
     background: #f4f1fb;
     border-radius: 10px;
     padding: 12px;
@@ -230,7 +273,52 @@ textarea:focus {
     align-items: flex-start;
 }
 
-.location-icon {
+/* Media header preview */
+#ycloud-template-builder .preview-header.media-header {
+    background: #f2f2f7;
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#ycloud-template-builder .media-thumb {
+    width: 100%;
+    height: 140px;
+    border-radius: 8px;
+    background: #e6e6ef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: #6b6b7a;
+}
+
+#ycloud-template-builder .media-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    color: #4a4a57;
+}
+
+#ycloud-template-builder .media-pill {
+    display: inline-block;
+    background: #dfe3ff;
+    color: #3843a6;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+#ycloud-template-builder .media-url {
+    color: #6b6b7a;
+    word-break: break-all;
+}
+
+#ycloud-template-builder .location-icon {
     width: 42px;
     height: 42px;
     border-radius: 50%;
@@ -243,7 +331,7 @@ textarea:focus {
     flex-shrink: 0;
 }
 
-.location-text {
+#ycloud-template-builder .location-text {
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -251,7 +339,7 @@ textarea:focus {
     color: #4b2b7f;
 }
 
-.location-pill {
+#ycloud-template-builder .location-pill {
     display: inline-block;
     background: #e7def7;
     color: #4b2b7f;
@@ -260,7 +348,7 @@ textarea:focus {
     font-size: 13px;
 }
 
-.header-text-container input {
+#ycloud-template-builder .header-text-container input {
     flex: 1;
 }
 
@@ -270,42 +358,42 @@ textarea:focus {
    ============================================ */
 
 /* Toolbar */
-.toolbar {
+#ycloud-template-builder .toolbar {
     display: flex;
     gap: 8px;
     margin-bottom: 10px;
     flex-wrap: wrap;
 }
 
-.tool-btn,
-.var-btn {
-    background: #f5f5f5;
-    border: 1px solid #e0e0e0;
+#ycloud-template-builder .tool-btn,
+#ycloud-template-builder .var-btn {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
     padding: 8px 12px;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     transition: all 0.2s;
 }
 
-.tool-btn:hover,
-.var-btn:hover {
-    background: #e8e8e8;
-    border-color: #ccc;
+#ycloud-template-builder .tool-btn:hover,
+#ycloud-template-builder .var-btn:hover {
+    background: #eef2f6;
+    border-color: #cbd5e1;
 }
 
-.tool-btn:active {
-    background: #d5d5d5;
+#ycloud-template-builder .tool-btn:active {
+    background: #e2e8f0;
 }
 
 
 /* Editor */
-.editor-wrapper {
+#ycloud-template-builder .editor-wrapper {
     position: relative;
 }
 
-.body-editor {
+#ycloud-template-builder .body-editor {
     min-height: 180px;
     resize: vertical;
     font-family: 'Courier New', monospace;
@@ -313,75 +401,75 @@ textarea:focus {
     padding-right: 80px;
 }
 
-.editor-wrapper .counter {
+#ycloud-template-builder .editor-wrapper .counter {
     top: auto;
     bottom: 12px;
 }
 
-.error-message {
-    color: #f44336;
-    font-size: 13px;
+#ycloud-template-builder .error-message {
+    color: #b42318;
+    font-size: 12px;
     margin-top: 8px;
-    background: #ffebee;
+    background: #fef3f2;
     padding: 8px 12px;
-    border-radius: 4px;
+    border-radius: 8px;
 }
 
 /* Buttons Section */
-.add-button-select {
+#ycloud-template-builder .add-button-select {
     width: 100%;
     margin-top: 10px;
 }
 
-#buttonsContainer {
+#ycloud-template-builder #buttonsContainer {
     margin-bottom: 10px;
 }
 
-.button-item {
-    background: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
+#ycloud-template-builder .button-item {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
     padding: 15px;
     margin-bottom: 10px;
     position: relative;
 }
 
-.button-item label {
+#ycloud-template-builder .button-item label {
     font-size: 13px;
     margin-bottom: 5px;
 }
 
-.button-item input,
-.button-item select {
+#ycloud-template-builder .button-item input,
+#ycloud-template-builder .button-item select {
     margin-bottom: 10px;
 }
 
-.button-remove {
+#ycloud-template-builder .button-remove {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: #f44336;
+    background: #ef4444;
     color: white;
     border: none;
     padding: 5px 12px;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 12px;
 }
 
-.button-remove:hover {
-    background: #d32f2f;
+#ycloud-template-builder .button-remove:hover {
+    background: #dc2626;
 }
 
 /* Advanced Settings */
-h3 {
-    font-size: 16px;
+#ycloud-template-builder h3 {
+    font-size: 15px;
     font-weight: 600;
     margin: 25px 0 15px;
-    color: #1a1a1a;
+    color: #111827;
 }
 
-.toggle-label {
+#ycloud-template-builder .toggle-label {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -389,20 +477,20 @@ h3 {
     user-select: none;
 }
 
-.toggle-label input[type="checkbox"] {
+#ycloud-template-builder .toggle-label input[type="checkbox"] {
     display: none;
 }
 
-.toggle-switch {
+#ycloud-template-builder .toggle-switch {
     position: relative;
     width: 44px;
     height: 24px;
-    background: #ccc;
+    background: #d1d5db;
     border-radius: 12px;
     transition: background 0.3s;
 }
 
-.toggle-switch::after {
+#ycloud-template-builder .toggle-switch::after {
     content: '';
     position: absolute;
     width: 18px;
@@ -415,54 +503,54 @@ h3 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.toggle-label input:checked + .toggle-switch {
-    background: #5b5fc7;
+#ycloud-template-builder .toggle-label input:checked + .toggle-switch {
+    background: #10a37f;
 }
 
-.toggle-label input:checked + .toggle-switch::after {
+#ycloud-template-builder .toggle-label input:checked + .toggle-switch::after {
     left: 23px;
 }
 
 /* Form Actions */
-.form-actions {
+#ycloud-template-builder .form-actions {
     display: flex;
     gap: 12px;
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid #eef2f6;
 }
 
-.btn-submit {
-    background: #000;
+#ycloud-template-builder .btn-submit {
+    background: #10a37f;
     color: white;
     border: none;
     padding: 12px 32px;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     transition: background 0.3s;
 }
 
-.btn-submit:hover {
-    background: #333;
+#ycloud-template-builder .btn-submit:hover {
+    background: #0f8f6f;
 }
 
-.btn-cancel {
+#ycloud-template-builder .btn-cancel {
     background: white;
-    color: #333;
-    border: 1px solid #ddd;
+    color: #0f172a;
+    border: 1px solid #e5e7eb;
     padding: 12px 32px;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     transition: all 0.3s;
 }
 
-.btn-cancel:hover {
-    background: #f5f5f5;
-    border-color: #bbb;
+#ycloud-template-builder .btn-cancel:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
 }
 
 /* END OF PART 2 */
@@ -471,71 +559,73 @@ h3 {
    ============================================ */
 
 /* Preview Section */
-.preview-section {
-    width: 400px;
+#ycloud-template-builder .preview-section {
+    width: 380px;
     position: sticky;
-    top: 20px;
+    top: 24px;
     height: fit-content;
 }
 
-.phone-mockup {
+#ycloud-template-builder .phone-mockup {
     width: 360px;
     height: 720px;
-    background: #1f2d3d;
-    border-radius: 36px;
-    padding: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    background: #111827;
+    border-radius: 28px;
+    padding: 10px;
+    border: 1px solid #1f2937;
+    box-shadow: 0 8px 24px rgba(16, 24, 40, 0.2);
 }
 
-.phone-header {
-    background: #075e54;
+#ycloud-template-builder .phone-header {
+    background: #0f172a;
     color: white;
-    padding: 12px 15px;
+    padding: 10px 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 24px 24px 0 0;
+    border-radius: 22px 22px 0 0;
 }
 
-.phone-time {
+#ycloud-template-builder .phone-time {
     font-size: 13px;
     font-weight: 600;
 }
 
-.phone-status-icons {
+#ycloud-template-builder .phone-status-icons {
     font-size: 12px;
 }
 
-.phone-content {
-    background: #e5ddd5;
+#ycloud-template-builder .phone-content {
+    background: #f3f4f6;
     height: 600px;
     padding: 15px;
     overflow-y: auto;
 }
 
-.whatsapp-message {
+#ycloud-template-builder .whatsapp-message {
     background: white;
     padding: 12px;
-    border-radius: 8px;
-    max-width: 85%;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    max-width: 90%;
+    border: 1px solid #eef2f6;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
     word-wrap: break-word;
 }
 
-.preview-header {
+#ycloud-template-builder .preview-header {
     font-weight: 600;
     margin-bottom: 8px;
     color: #333;
 }
 
-.preview-body {
+#ycloud-template-builder .preview-body {
     white-space: pre-wrap;
     margin: 10px 0;
     font-size: 14px;
     line-height: 1.5;
 }
 
-.preview-footer {
+#ycloud-template-builder .preview-footer {
     color: #666;
     font-size: 12px;
     margin-top: 10px;
@@ -543,61 +633,61 @@ h3 {
     border-top: 1px solid #f0f0f0;
 }
 
-.message-time {
+#ycloud-template-builder .message-time {
     text-align: right;
     font-size: 11px;
     color: #999;
     margin-top: 6px;
 }
 
-.preview-buttons {
+#ycloud-template-builder .preview-buttons {
     margin-top: 12px;
 }
 
-.preview-buttons button {
+#ycloud-template-builder .preview-buttons button {
     display: block;
     width: 100%;
     padding: 10px;
     margin: 6px 0;
     background: white;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 13px;
-    color: #0088cc;
+    color: #0f766e;
     text-align: center;
     transition: background 0.2s;
 }
 
-.preview-buttons button:hover {
-    background: #f5f5f5;
+#ycloud-template-builder .preview-buttons button:hover {
+    background: #f8fafc;
 }
 
-.phone-footer {
-    background: #f0f0f0;
+#ycloud-template-builder .phone-footer {
+    background: #f8fafc;
     padding: 10px;
     display: flex;
     gap: 8px;
     align-items: center;
-    border-radius: 0 0 24px 24px;
+    border-radius: 0 0 22px 22px;
 }
 
-.emoji-btn {
+#ycloud-template-builder .emoji-btn {
     font-size: 20px;
     cursor: pointer;
 }
 
-.phone-footer input {
+#ycloud-template-builder .phone-footer input {
     flex: 1;
     padding: 8px 12px;
-    border: none;
-    border-radius: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
     background: white;
     font-size: 13px;
 }
 
-.send-icon {
-    background: #25d366;
+#ycloud-template-builder .send-icon {
+    background: #10a37f;
     color: white;
     border: none;
     width: 36px;
@@ -611,7 +701,7 @@ h3 {
 }
 
 /* Modal */
-.modal {
+#ycloud-template-builder .modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -623,7 +713,7 @@ h3 {
     justify-content: center;
 }
 
-.modal-overlay {
+#ycloud-template-builder .modal-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -632,7 +722,7 @@ h3 {
     background: rgba(0, 0, 0, 0.5);
 }
 
-.modal-content {
+#ycloud-template-builder .modal-content {
     position: relative;
     background: white;
     padding: 30px;
@@ -643,38 +733,38 @@ h3 {
     z-index: 1001;
 }
 
-.modal-content h3 {
+#ycloud-template-builder .modal-content h3 {
     margin: 0 0 10px 0;
     font-size: 18px;
 }
 
-.modal-content p {
+#ycloud-template-builder .modal-content p {
     margin-bottom: 20px;
     font-size: 13px;
     color: #666;
     line-height: 1.5;
 }
 
-.modal-form-group {
+#ycloud-template-builder .modal-form-group {
     margin-bottom: 15px;
 }
 
-.modal-form-group label {
+#ycloud-template-builder .modal-form-group label {
     margin-bottom: 6px;
 }
 
-.modal-form-group input {
+#ycloud-template-builder .modal-form-group input {
     width: 100%;
 }
 
-.modal-actions {
+#ycloud-template-builder .modal-actions {
     display: flex;
     gap: 10px;
     justify-content: flex-end;
     margin-top: 25px;
 }
 
-.btn-ok {
+#ycloud-template-builder .btn-ok {
     background: #5b5fc7;
     color: white;
     border: none;
@@ -685,21 +775,21 @@ h3 {
     font-weight: 500;
 }
 
-.btn-ok:hover {
+#ycloud-template-builder .btn-ok:hover {
     background: #4a4fb0;
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-    .container {
+    #ycloud-template-builder .container {
         flex-direction: column;
     }
     
-    .form-section {
+    #ycloud-template-builder .form-section {
         min-width: auto;
     }
     
-    .preview-section {
+    #ycloud-template-builder .preview-section {
         width: 100%;
         display: flex;
         justify-content: center;
@@ -708,20 +798,20 @@ h3 {
 }
 
 @media (max-width: 768px) {
-    .row {
+    #ycloud-template-builder .row {
         flex-direction: column;
     }
     
-    .form-group.half {
+    #ycloud-template-builder .form-group.half {
         width: 100%;
     }
     
-    .phone-mockup {
+    #ycloud-template-builder .phone-mockup {
         width: 320px;
         height: 640px;
     }
     
-    .phone-content {
+    #ycloud-template-builder .phone-content {
         height: 520px;
     }
 }

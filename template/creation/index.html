@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WhatsApp Template Message Form</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="container">
+    <div id="whatsapp-template-builder">
+        <div id="ycloud-template-builder">
+            <div class="container">
         <!-- Form Section -->
         <div class="form-section">
             <h1>New Message Template</h1>
-            
+
             <form id="templateForm" action="submit.php" method="POST">
                 <!-- API Credentials Row -->
                 <div class="row">
@@ -21,11 +25,7 @@
                             <span class="info-icon" title="Optional: uses server env YCOUD_API_KEY if empty">ⓘ</span>
                         </label>
                         <div class="input-wrapper">
-                            <input
-                                type="text"
-                                id="apiKey"
-                                name="api_key"
-                                placeholder="X-API-Key">
+                            <input type="text" id="apiKey" name="api_key" placeholder="X-API-Key">
                         </div>
                     </div>
                     <div class="form-group half">
@@ -34,11 +34,7 @@
                             <span class="info-icon" title="Optional: uses server env YCLOUD_WABA_ID if empty">ⓘ</span>
                         </label>
                         <div class="input-wrapper">
-                            <input
-                                type="text"
-                                id="wabaId"
-                                name="waba_id"
-                                placeholder="whatsapp-business-account-id">
+                            <input type="text" id="wabaId" name="waba_id" placeholder="whatsapp-business-account-id">
                         </div>
                     </div>
                 </div>
@@ -47,25 +43,19 @@
                 <div class="row">
                     <div class="form-group half">
                         <label for="templateName">
-                            Template name 
+                            Template name
                             <span class="info-icon" title="Only support 0~9, lowercase a~z, and underscore(_)">ⓘ</span>
                         </label>
                         <div class="input-wrapper">
-                            <input 
-                                type="text" 
-                                id="templateName" 
-                                name="template_name" 
-                                pattern="[0-9a-z_]+" 
-                                maxlength="512" 
-                                placeholder="template_marketing_20260114112202" 
-                                required>
+                            <input type="text" id="templateName" name="template_name" pattern="[0-9a-z_]+"
+                                maxlength="512" placeholder="template_marketing_20260114112202" required>
                             <span class="counter"><span id="nameCount">0</span>/512</span>
                         </div>
                     </div>
-                    
+
                     <div class="form-group half">
                         <label for="category">
-                            Category 
+                            Category
                             <span class="info-icon" title="Select message category">ⓘ</span>
                         </label>
                         <select id="category" name="category" required>
@@ -92,6 +82,21 @@
 
                 <!-- Language Selection -->
                 <div class="language-section">
+                    <div class="language-selectors">
+                        <span class="language-select-label">Select languages:</span>
+                        <label class="language-option">
+                            <input type="checkbox" class="lang-toggle" data-lang="en" checked>
+                            <span>English</span>
+                        </label>
+                        <label class="language-option">
+                            <input type="checkbox" class="lang-toggle" data-lang="zh-hk">
+                            <span>Chinese (HKG)</span>
+                        </label>
+                        <label class="language-option">
+                            <input type="checkbox" class="lang-toggle" data-lang="zh-cn">
+                            <span>Chinese (CHN)</span>
+                        </label>
+                    </div>
                     <div class="language-tabs">
                         <button type="button" class="lang-tab active" data-lang="en">English</button>
                         <button type="button" class="lang-tab" data-lang="zh-hk">
@@ -101,16 +106,14 @@
                             Chinese (CHN) <span class="required-dot">●</span>
                         </button>
                     </div>
-                    <button type="button" class="ai-translate-btn">✨ AI Translation</button>
                 </div>
-
                 <!-- English Language Content -->
                 <div class="lang-content active" data-lang="en">
                     <input type="hidden" name="variable_samples_en" class="variable-samples" data-lang="en" value="{}">
                     <!-- Header -->
                     <div class="form-group">
                         <label for="header_en">
-                            Header 
+                            Header
                             <span class="info-icon" title="Optional header">ⓘ</span>
                         </label>
                         <select id="header_en" name="header_type_en" class="header-select">
@@ -120,10 +123,7 @@
                             <option value="location">Location</option>
                         </select>
                         <div class="header-text-container" style="display: none;">
-                            <input 
-                                type="text" 
-                                name="header_text_en" 
-                                class="header-text-input" 
+                            <input type="text" name="header_text_en" class="header-text-input"
                                 placeholder="Please enter">
                             <button type="button" class="var-btn">+ Variables</button>
                         </div>
@@ -133,10 +133,7 @@
                                 <option value="video">Video</option>
                                 <option value="document">Document</option>
                             </select>
-                            <input 
-                                type="url" 
-                                name="header_media_url_en" 
-                                class="header-media-input" 
+                            <input type="url" name="header_media_url_en" class="header-media-input"
                                 placeholder="Media URL (jpg/png, mp4, pdf)">
                         </div>
                         <div class="header-location-container" style="display: none;">
@@ -152,24 +149,21 @@
                     <!-- Body -->
                     <div class="form-group">
                         <label for="body_en">
-                            Body (Required) 
+                            Body (Required)
                             <span class="info-icon" title="Message body is required">ⓘ</span>
                         </label>
                         <div class="toolbar">
                             <button type="button" class="tool-btn" data-format="bold" title="Bold"><b>B</b></button>
                             <button type="button" class="tool-btn" data-format="italic" title="Italic"><i>I</i></button>
-                            <button type="button" class="tool-btn" data-format="strike" title="Strikethrough"><s>S</s></button>
-                            <button type="button" class="tool-btn" data-format="code" title="Monospace">&lt;/&gt;</button>
+                            <button type="button" class="tool-btn" data-format="strike"
+                                title="Strikethrough"><s>S</s></button>
+                            <button type="button" class="tool-btn" data-format="code"
+                                title="Monospace">&lt;/&gt;</button>
                             <button type="button" class="var-btn">+ Variables</button>
                         </div>
                         <div class="editor-wrapper">
-                            <textarea 
-                                id="body_en" 
-                                name="body_en" 
-                                class="body-editor" 
-                                maxlength="1024" 
-                                placeholder="Enter text in English" 
-                                required></textarea>
+                            <textarea id="body_en" name="body_en" class="body-editor" maxlength="1024"
+                                placeholder="Enter text in English" required></textarea>
                             <span class="counter"><span class="body-count">0</span>/1024</span>
                         </div>
                         <div class="error-message" style="display: none;">⚠ Required</div>
@@ -178,15 +172,11 @@
                     <!-- Footer -->
                     <div class="form-group">
                         <label for="footer_en">
-                            Footer 
+                            Footer
                             <span class="info-icon" title="Optional footer text">ⓘ</span>
                         </label>
                         <div class="input-wrapper">
-                            <input 
-                                type="text" 
-                                id="footer_en" 
-                                name="footer_en" 
-                                maxlength="60" 
+                            <input type="text" id="footer_en" name="footer_en" maxlength="60"
                                 placeholder="Please enter">
                             <span class="counter"><span class="footer-count">0</span>/60</span>
                         </div>
@@ -195,7 +185,8 @@
 
                 <!-- Chinese (HKG) Language Content -->
                 <div class="lang-content" data-lang="zh-hk">
-                    <input type="hidden" name="variable_samples_zh_hk" class="variable-samples" data-lang="zh-hk" value="{}">
+                    <input type="hidden" name="variable_samples_zh_hk" class="variable-samples" data-lang="zh-hk"
+                        value="{}">
                     <div class="form-group">
                         <label>Header <span class="info-icon">ⓘ</span></label>
                         <select name="header_type_zh_hk" class="header-select">
@@ -214,14 +205,16 @@
                                 <option value="video">Video</option>
                                 <option value="document">Document</option>
                             </select>
-                            <input type="url" name="header_media_url_zh_hk" class="header-media-input" placeholder="Media URL (jpg/png, mp4, pdf)">
+                            <input type="url" name="header_media_url_zh_hk" class="header-media-input"
+                                placeholder="Media URL (jpg/png, mp4, pdf)">
                         </div>
                         <div class="header-location-container" style="display: none;">
                             <div class="location-grid">
                                 <input type="text" name="header_location_name_zh_hk" placeholder="Location name">
                                 <input type="text" name="header_location_address_zh_hk" placeholder="Address">
                                 <input type="number" step="any" name="header_location_lat_zh_hk" placeholder="Latitude">
-                                <input type="number" step="any" name="header_location_lng_zh_hk" placeholder="Longitude">
+                                <input type="number" step="any" name="header_location_lng_zh_hk"
+                                    placeholder="Longitude">
                             </div>
                         </div>
                     </div>
@@ -235,7 +228,8 @@
                             <button type="button" class="var-btn">+ Variables</button>
                         </div>
                         <div class="editor-wrapper">
-                            <textarea name="body_zh_hk" class="body-editor" maxlength="1024" placeholder="輸入繁體中文" required></textarea>
+                            <textarea name="body_zh_hk" class="body-editor" maxlength="1024" placeholder="輸入繁體中文"
+                                required></textarea>
                             <span class="counter"><span class="body-count">0</span>/1024</span>
                         </div>
                     </div>
@@ -248,10 +242,11 @@
                     </div>
                 </div>
 
-<!-- CONTINUE TO PART 2 -->
+                <!-- CONTINUE TO PART 2 -->
                 <!-- Chinese (CHN) Language Content -->
                 <div class="lang-content" data-lang="zh-cn">
-                    <input type="hidden" name="variable_samples_zh_cn" class="variable-samples" data-lang="zh-cn" value="{}">
+                    <input type="hidden" name="variable_samples_zh_cn" class="variable-samples" data-lang="zh-cn"
+                        value="{}">
                     <div class="form-group">
                         <label>Header <span class="info-icon">ⓘ</span></label>
                         <select name="header_type_zh_cn" class="header-select">
@@ -270,14 +265,16 @@
                                 <option value="video">Video</option>
                                 <option value="document">Document</option>
                             </select>
-                            <input type="url" name="header_media_url_zh_cn" class="header-media-input" placeholder="Media URL (jpg/png, mp4, pdf)">
+                            <input type="url" name="header_media_url_zh_cn" class="header-media-input"
+                                placeholder="Media URL (jpg/png, mp4, pdf)">
                         </div>
                         <div class="header-location-container" style="display: none;">
                             <div class="location-grid">
                                 <input type="text" name="header_location_name_zh_cn" placeholder="Location name">
                                 <input type="text" name="header_location_address_zh_cn" placeholder="Address">
                                 <input type="number" step="any" name="header_location_lat_zh_cn" placeholder="Latitude">
-                                <input type="number" step="any" name="header_location_lng_zh_cn" placeholder="Longitude">
+                                <input type="number" step="any" name="header_location_lng_zh_cn"
+                                    placeholder="Longitude">
                             </div>
                         </div>
                     </div>
@@ -291,7 +288,8 @@
                             <button type="button" class="var-btn">+ Variables</button>
                         </div>
                         <div class="editor-wrapper">
-                            <textarea name="body_zh_cn" class="body-editor" maxlength="1024" placeholder="输入简体中文" required></textarea>
+                            <textarea name="body_zh_cn" class="body-editor" maxlength="1024" placeholder="输入简体中文"
+                                required></textarea>
                             <span class="counter"><span class="body-count">0</span>/1024</span>
                         </div>
                     </div>
@@ -307,7 +305,7 @@
                 <!-- Buttons Section -->
                 <div class="form-group">
                     <label>
-                        Buttons 
+                        Buttons
                         <span class="info-icon" title="Add action buttons">ⓘ</span>
                     </label>
                     <div id="buttonsContainer"></div>
@@ -375,17 +373,18 @@
         <div class="modal-overlay"></div>
         <div class="modal-content">
             <h3>+ Variables</h3>
-            <p>Adding a variable creates a personalized link for the customer to view their info. Only one variable can be added to the end of a URL.</p>
+            <p>Adding a variable creates a personalized link for the customer to view their info. Only one variable can
+                be added to the end of a URL.</p>
             <div class="modal-form-group">
                 <label>
-                    Variable Name 
+                    Variable Name
                     <span class="info-icon">ⓘ</span>
                 </label>
                 <input type="text" id="variableName" placeholder="Enter name">
             </div>
             <div class="modal-form-group">
                 <label>
-                    Add Sample 
+                    Add Sample
                     <span class="info-icon">ⓘ</span>
                 </label>
                 <input type="text" id="variableSample" placeholder="Enter content">
@@ -398,5 +397,9 @@
     </div>
 
     <script src="script.js?v=20260122"></script>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

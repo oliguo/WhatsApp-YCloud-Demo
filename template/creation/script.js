@@ -5,6 +5,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     initializeCounters();
     initializeLanguageTabs();
+    initializeLanguageSelectors();
     initializeHeaderSelects();
     initializeToolbar();
     initializeButtons();
@@ -62,6 +63,9 @@ function initializeLanguageTabs() {
     langTabs.forEach(tab => {
         tab.addEventListener('click', function() {
             const targetLang = this.getAttribute('data-lang');
+            if (this.style.display === 'none') {
+                return;
+            }
             
             // Remove active class from all tabs and contents
             langTabs.forEach(t => t.classList.remove('active'));
@@ -80,6 +84,57 @@ function initializeLanguageTabs() {
             updatePreview();
         });
     });
+}
+
+// Language Selector Functionality
+function initializeLanguageSelectors() {
+    const toggles = document.querySelectorAll('.lang-toggle');
+    toggles.forEach(toggle => {
+        toggle.addEventListener('change', updateLanguageVisibility);
+    });
+
+    updateLanguageVisibility();
+}
+
+function updateLanguageVisibility() {
+    const toggles = document.querySelectorAll('.lang-toggle');
+    const selected = Array.from(toggles)
+        .filter(toggle => toggle.checked)
+        .map(toggle => toggle.getAttribute('data-lang'));
+
+    const langTabs = document.querySelectorAll('.lang-tab');
+    const langContents = document.querySelectorAll('.lang-content');
+
+    langTabs.forEach(tab => {
+        const lang = tab.getAttribute('data-lang');
+        const isSelected = selected.includes(lang);
+        tab.style.display = isSelected ? '' : 'none';
+        if (!isSelected) {
+            tab.classList.remove('active');
+        }
+    });
+
+    langContents.forEach(content => {
+        const lang = content.getAttribute('data-lang');
+        const isSelected = selected.includes(lang);
+        content.style.display = isSelected ? '' : 'none';
+        if (!isSelected) {
+            content.classList.remove('active');
+        }
+    });
+
+    if (selected.length > 0) {
+        const activeTab = document.querySelector('.lang-tab.active');
+        if (!activeTab || activeTab.style.display === 'none') {
+            const nextLang = selected[0];
+            const nextTab = document.querySelector(`.lang-tab[data-lang="${nextLang}"]`);
+            const nextContent = document.querySelector(`.lang-content[data-lang="${nextLang}"]`);
+            if (nextTab) nextTab.classList.add('active');
+            if (nextContent) nextContent.classList.add('active');
+        }
+    }
+
+    updatePreview();
 }
 
 // Header Select Functionality
@@ -591,15 +646,32 @@ function updatePreview() {
     
     if (headerSelect) {
         previewHeader.classList.remove('location-header');
+        previewHeader.classList.remove('media-header');
         if (headerSelect.value === 'text' && headerText && headerText.value) {
             previewHeader.textContent = headerText.value;
             previewHeader.style.display = 'block';
         } else if (headerSelect.value === 'media') {
             const mediaType = activeContent.querySelector('select[name^="header_media_type_"]');
             const mediaUrl = activeContent.querySelector('input[name^="header_media_url_"]');
-            const label = mediaType ? mediaType.value.toUpperCase() : 'MEDIA';
-            const urlText = mediaUrl && mediaUrl.value ? ` • ${mediaUrl.value}` : '';
-            previewHeader.textContent = `${label} HEADER${urlText}`;
+            const typeValue = mediaType ? mediaType.value : 'media';
+            const label = typeValue.toUpperCase();
+            const urlText = mediaUrl && mediaUrl.value ? escapeHtml(mediaUrl.value) : 'No media URL set';
+            const iconMap = {
+                image: '🖼️',
+                video: '🎬',
+                document: '📄',
+                media: '📎'
+            };
+            const icon = iconMap[typeValue] || iconMap.media;
+
+            previewHeader.classList.add('media-header');
+            previewHeader.innerHTML = `
+                <div class="media-thumb">${icon}</div>
+                <div class="media-meta">
+                    <span class="media-pill">${label}</span>
+                    <span class="media-url">${urlText}</span>
+                </div>
+            `;
             previewHeader.style.display = 'block';
         } else if (headerSelect.value === 'location') {
             const locName = activeContent.querySelector('input[name^="header_location_name_"]')?.value || '';
@@ -622,10 +694,12 @@ function updatePreview() {
             previewHeader.style.display = 'block';
         } else {
             previewHeader.classList.remove('location-header');
+            previewHeader.classList.remove('media-header');
             previewHeader.style.display = 'none';
         }
     } else {
         previewHeader.classList.remove('location-header');
+        previewHeader.classList.remove('media-header');
         previewHeader.style.display = 'none';
     }
     
@@ -789,6 +863,20 @@ function validateForm() {
                 errors.push(`Header media URL is required for ${lang}`);
                 isValid = false;
             }
+            if (mediaType && mediaUrl && mediaUrl.value.trim()) {
+                const urlValue = mediaUrl.value.trim().toLowerCase();
+                const extMap = {
+                    image: ['.jpg', '.jpeg', '.png'],
+                    video: ['.mp4'],
+                    document: ['.pdf']
+                };
+                const allowed = extMap[mediaType.value] || [];
+                const matches = allowed.some(ext => urlValue.endsWith(ext));
+                if (!matches) {
+                    errors.push(`Header media URL for ${lang} must end with ${allowed.join(' or ')}`);
+                    isValid = false;
+                }
+            }
         }
 
         if (headerSelect.value === 'location') {
@@ -803,19 +891,29 @@ function validateForm() {
         }
     });
     
-    // Validate at least one language has body content
-    const bodyEditors = document.querySelectorAll('.body-editor');
-    let hasContent = false;
-    
-    bodyEditors.forEach(editor => {
-        if (editor.value.trim()) {
-            hasContent = true;
-        }
-    });
-    
-    if (!hasContent) {
-        errors.push('At least one language must have body content');
+    // Validate selected languages
+    const toggles = document.querySelectorAll('.lang-toggle');
+    const selectedLangs = Array.from(toggles)
+        .filter(toggle => toggle.checked)
+        .map(toggle => toggle.getAttribute('data-lang'));
+
+    if (selectedLangs.length === 0) {
+        errors.push('Select at least one language to submit');
         isValid = false;
+    } else {
+        let selectedHasContent = false;
+        selectedLangs.forEach(lang => {
+            const content = document.querySelector(`.lang-content[data-lang="${lang}"]`);
+            const editor = content ? content.querySelector('.body-editor') : null;
+            if (editor && editor.value.trim()) {
+                selectedHasContent = true;
+            }
+        });
+
+        if (!selectedHasContent) {
+            errors.push('At least one selected language must have body content');
+            isValid = false;
+        }
     }
     
     // Show validation errors
@@ -827,14 +925,18 @@ function validateForm() {
             msg.style.display = 'none';
         });
         
-        bodyEditors.forEach(editor => {
-            if (!editor.value.trim()) {
-                const errorMsg = editor.closest('.form-group').querySelector('.error-message');
-                if (errorMsg) {
-                    errorMsg.style.display = 'block';
+        if (selectedLangs.length > 0) {
+            selectedLangs.forEach(lang => {
+                const content = document.querySelector(`.lang-content[data-lang="${lang}"]`);
+                const editor = content ? content.querySelector('.body-editor') : null;
+                if (editor && !editor.value.trim()) {
+                    const errorMsg = editor.closest('.form-group').querySelector('.error-message');
+                    if (errorMsg) {
+                        errorMsg.style.display = 'block';
+                    }
                 }
-            }
-        });
+            });
+        }
     }
     
     return isValid;
@@ -846,16 +948,6 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
-
-// AI Translation Button (Placeholder)
-document.addEventListener('DOMContentLoaded', function() {
-    const aiBtn = document.querySelector('.ai-translate-btn');
-    if (aiBtn) {
-        aiBtn.addEventListener('click', function() {
-            alert('AI Translation feature coming soon!\n\nThis would automatically translate your content to all selected languages.');
-        });
-    }
-});
 
 // Make removeButton function global
 window.removeButton = removeButton;

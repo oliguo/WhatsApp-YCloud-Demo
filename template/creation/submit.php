@@ -233,8 +233,31 @@ foreach ($languages as $lang) {
 			'document' => 'DOCUMENT'
 		];
 		$mediaFormat = isset($mediaTypeMap[$mediaTypeRaw]) ? $mediaTypeMap[$mediaTypeRaw] : null;
+		$mediaExtMap = [
+			'image' => ['.jpg', '.jpeg', '.png'],
+			'video' => ['.mp4'],
+			'document' => ['.pdf']
+		];
 
 		if ($mediaFormat && $mediaUrl !== '') {
+			$allowedExts = isset($mediaExtMap[$mediaTypeRaw]) ? $mediaExtMap[$mediaTypeRaw] : [];
+			$lowerUrl = strtolower($mediaUrl);
+			$extOk = false;
+			foreach ($allowedExts as $ext) {
+				if (substr($lowerUrl, -strlen($ext)) === $ext) {
+					$extOk = true;
+					break;
+				}
+			}
+			if (!$extOk) {
+				respond([
+					'error' => 'Invalid header media URL extension.',
+					'language' => $langCode,
+					'expected' => $allowedExts,
+					'url' => $mediaUrl
+				], 400);
+			}
+
 			$headerComponent = [
 				'type' => 'HEADER',
 				'format' => $mediaFormat,
