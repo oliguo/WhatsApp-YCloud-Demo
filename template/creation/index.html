@@ -127,6 +127,26 @@
                                 placeholder="Please enter">
                             <button type="button" class="var-btn">+ Variables</button>
                         </div>
+                        <div class="header-media-container" style="display: none;">
+                            <select name="header_media_type_en" class="header-media-select">
+                                <option value="image">Image</option>
+                                <option value="video">Video</option>
+                                <option value="document">Document</option>
+                            </select>
+                            <input 
+                                type="url" 
+                                name="header_media_url_en" 
+                                class="header-media-input" 
+                                placeholder="Media URL (jpg/png, mp4, pdf)">
+                        </div>
+                        <div class="header-location-container" style="display: none;">
+                            <div class="location-grid">
+                                <input type="text" name="header_location_name_en" placeholder="Location name">
+                                <input type="text" name="header_location_address_en" placeholder="Address">
+                                <input type="number" step="any" name="header_location_lat_en" placeholder="Latitude">
+                                <input type="number" step="any" name="header_location_lng_en" placeholder="Longitude">
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Body -->
@@ -137,7 +157,6 @@
                         </label>
                         <div class="toolbar">
                             <button type="button" class="tool-btn" data-format="bold" title="Bold"><b>B</b></button>
-                            <button type="button" class="tool-btn" data-format="emoji" title="Emoji">☺</button>
                             <button type="button" class="tool-btn" data-format="italic" title="Italic"><i>I</i></button>
                             <button type="button" class="tool-btn" data-format="strike" title="Strikethrough"><s>S</s></button>
                             <button type="button" class="tool-btn" data-format="code" title="Monospace">&lt;/&gt;</button>
@@ -189,12 +208,27 @@
                             <input type="text" name="header_text_zh_hk" placeholder="請輸入">
                             <button type="button" class="var-btn">+ Variables</button>
                         </div>
+                        <div class="header-media-container" style="display: none;">
+                            <select name="header_media_type_zh_hk" class="header-media-select">
+                                <option value="image">Image</option>
+                                <option value="video">Video</option>
+                                <option value="document">Document</option>
+                            </select>
+                            <input type="url" name="header_media_url_zh_hk" class="header-media-input" placeholder="Media URL (jpg/png, mp4, pdf)">
+                        </div>
+                        <div class="header-location-container" style="display: none;">
+                            <div class="location-grid">
+                                <input type="text" name="header_location_name_zh_hk" placeholder="Location name">
+                                <input type="text" name="header_location_address_zh_hk" placeholder="Address">
+                                <input type="number" step="any" name="header_location_lat_zh_hk" placeholder="Latitude">
+                                <input type="number" step="any" name="header_location_lng_zh_hk" placeholder="Longitude">
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Body (Required) <span class="info-icon">ⓘ</span></label>
                         <div class="toolbar">
                             <button type="button" class="tool-btn" data-format="bold"><b>B</b></button>
-                            <button type="button" class="tool-btn" data-format="emoji">☺</button>
                             <button type="button" class="tool-btn" data-format="italic"><i>I</i></button>
                             <button type="button" class="tool-btn" data-format="strike"><s>S</s></button>
                             <button type="button" class="tool-btn" data-format="code">&lt;/&gt;</button>
@@ -230,12 +264,27 @@
                             <input type="text" name="header_text_zh_cn" placeholder="请输入">
                             <button type="button" class="var-btn">+ Variables</button>
                         </div>
+                        <div class="header-media-container" style="display: none;">
+                            <select name="header_media_type_zh_cn" class="header-media-select">
+                                <option value="image">Image</option>
+                                <option value="video">Video</option>
+                                <option value="document">Document</option>
+                            </select>
+                            <input type="url" name="header_media_url_zh_cn" class="header-media-input" placeholder="Media URL (jpg/png, mp4, pdf)">
+                        </div>
+                        <div class="header-location-container" style="display: none;">
+                            <div class="location-grid">
+                                <input type="text" name="header_location_name_zh_cn" placeholder="Location name">
+                                <input type="text" name="header_location_address_zh_cn" placeholder="Address">
+                                <input type="number" step="any" name="header_location_lat_zh_cn" placeholder="Latitude">
+                                <input type="number" step="any" name="header_location_lng_zh_cn" placeholder="Longitude">
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Body (Required) <span class="info-icon">ⓘ</span></label>
                         <div class="toolbar">
                             <button type="button" class="tool-btn" data-format="bold"><b>B</b></button>
-                            <button type="button" class="tool-btn" data-format="emoji">☺</button>
                             <button type="button" class="tool-btn" data-format="italic"><i>I</i></button>
                             <button type="button" class="tool-btn" data-format="strike"><s>S</s></button>
                             <button type="button" class="tool-btn" data-format="code">&lt;/&gt;</button>

@@ -221,6 +221,38 @@ foreach ($languages as $lang) {
 		$components[] = $headerComponent;
 	}
 
+	if ($headerType === 'media') {
+		$mediaTypeKey = 'header_media_type_' . $langSuffix;
+		$mediaUrlKey = 'header_media_url_' . $langSuffix;
+		$mediaTypeRaw = isset($_POST[$mediaTypeKey]) ? strtolower(trim($_POST[$mediaTypeKey])) : '';
+		$mediaUrl = isset($_POST[$mediaUrlKey]) ? trim($_POST[$mediaUrlKey]) : '';
+
+		$mediaTypeMap = [
+			'image' => 'IMAGE',
+			'video' => 'VIDEO',
+			'document' => 'DOCUMENT'
+		];
+		$mediaFormat = isset($mediaTypeMap[$mediaTypeRaw]) ? $mediaTypeMap[$mediaTypeRaw] : null;
+
+		if ($mediaFormat && $mediaUrl !== '') {
+			$headerComponent = [
+				'type' => 'HEADER',
+				'format' => $mediaFormat,
+				'example' => [
+					'header_url' => [$mediaUrl]
+				]
+			];
+			$components[] = $headerComponent;
+		}
+	}
+
+	if ($headerType === 'location') {
+		$components[] = [
+			'type' => 'HEADER',
+			'format' => 'LOCATION'
+		];
+	}
+
 	$bodyComponent = [
 		'type' => 'BODY',
 		'text' => $bodyText

@@ -87,15 +87,9 @@ function initializeHeaderSelects() {
     const headerSelects = document.querySelectorAll('.header-select');
     
     headerSelects.forEach(select => {
+        updateHeaderContainers(select);
         select.addEventListener('change', function() {
-            const container = this.parentElement.querySelector('.header-text-container');
-            
-            if (this.value === 'text') {
-                container.style.display = 'flex';
-            } else {
-                container.style.display = 'none';
-            }
-            
+            updateHeaderContainers(this);
             updatePreview();
         });
     });
@@ -107,6 +101,42 @@ function initializeHeaderSelects() {
             updatePreview();
         });
     });
+
+    const mediaInputs = document.querySelectorAll('.header-media-container select, .header-media-container input');
+    mediaInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            updatePreview();
+        });
+        input.addEventListener('change', function() {
+            updatePreview();
+        });
+    });
+
+    const locationInputs = document.querySelectorAll('.header-location-container input');
+    locationInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            updatePreview();
+        });
+    });
+}
+
+function updateHeaderContainers(select) {
+    const group = select.closest('.form-group');
+    if (!group) return;
+
+    const textContainer = group.querySelector('.header-text-container');
+    const mediaContainer = group.querySelector('.header-media-container');
+    const locationContainer = group.querySelector('.header-location-container');
+
+    if (textContainer) {
+        textContainer.style.display = select.value === 'text' ? 'flex' : 'none';
+    }
+    if (mediaContainer) {
+        mediaContainer.style.display = select.value === 'media' ? 'flex' : 'none';
+    }
+    if (locationContainer) {
+        locationContainer.style.display = select.value === 'location' ? 'block' : 'none';
+    }
 }
 
 // END OF PART 1
@@ -228,6 +258,7 @@ function insertFormatting(textarea, format) {
     
     updatePreview();
 }
+
 
 // Variable Modal Functions
 function openVariableModal() {
@@ -558,10 +589,43 @@ function updatePreview() {
     const headerText = activeContent.querySelector(`input[name="header_text_${currentLang}"]`);
     const previewHeader = document.getElementById('previewHeader');
     
-    if (headerSelect && headerSelect.value === 'text' && headerText && headerText.value) {
-        previewHeader.textContent = headerText.value;
-        previewHeader.style.display = 'block';
+    if (headerSelect) {
+        previewHeader.classList.remove('location-header');
+        if (headerSelect.value === 'text' && headerText && headerText.value) {
+            previewHeader.textContent = headerText.value;
+            previewHeader.style.display = 'block';
+        } else if (headerSelect.value === 'media') {
+            const mediaType = activeContent.querySelector('select[name^="header_media_type_"]');
+            const mediaUrl = activeContent.querySelector('input[name^="header_media_url_"]');
+            const label = mediaType ? mediaType.value.toUpperCase() : 'MEDIA';
+            const urlText = mediaUrl && mediaUrl.value ? ` • ${mediaUrl.value}` : '';
+            previewHeader.textContent = `${label} HEADER${urlText}`;
+            previewHeader.style.display = 'block';
+        } else if (headerSelect.value === 'location') {
+            const locName = activeContent.querySelector('input[name^="header_location_name_"]')?.value || '';
+            const locAddress = activeContent.querySelector('input[name^="header_location_address_"]')?.value || '';
+            const locLat = activeContent.querySelector('input[name^="header_location_lat_"]')?.value || '';
+            const locLng = activeContent.querySelector('input[name^="header_location_lng_"]')?.value || '';
+            const safeName = locName ? escapeHtml(locName) : '{{Location name}}';
+            const safeAddress = locAddress ? escapeHtml(locAddress) : '{{Address}}';
+            const coords = locLat && locLng ? `<span class="location-pill">${escapeHtml(locLat)}, ${escapeHtml(locLng)}</span>` : '';
+
+            previewHeader.classList.add('location-header');
+            previewHeader.innerHTML = `
+                <span class="location-icon">📍</span>
+                <span class="location-text">
+                    <span class="location-pill">${safeName}</span>
+                    <span class="location-pill">${safeAddress}</span>
+                    ${coords}
+                </span>
+            `;
+            previewHeader.style.display = 'block';
+        } else {
+            previewHeader.classList.remove('location-header');
+            previewHeader.style.display = 'none';
+        }
     } else {
+        previewHeader.classList.remove('location-header');
         previewHeader.style.display = 'none';
     }
     
@@ -706,6 +770,38 @@ function validateForm() {
         errors.push('Category is required');
         isValid = false;
     }
+
+    // Validate header inputs per language
+    const langContents = document.querySelectorAll('.lang-content');
+    langContents.forEach(content => {
+        const lang = content.getAttribute('data-lang') || 'en';
+        const headerSelect = content.querySelector('.header-select');
+        if (!headerSelect) return;
+
+        if (headerSelect.value === 'media') {
+            const mediaType = content.querySelector('select[name^="header_media_type_"]');
+            const mediaUrl = content.querySelector('input[name^="header_media_url_"]');
+            if (!mediaType || !mediaType.value) {
+                errors.push(`Header media type is required for ${lang}`);
+                isValid = false;
+            }
+            if (!mediaUrl || !mediaUrl.value.trim()) {
+                errors.push(`Header media URL is required for ${lang}`);
+                isValid = false;
+            }
+        }
+
+        if (headerSelect.value === 'location') {
+            const locName = content.querySelector('input[name^="header_location_name_"]');
+            const locAddress = content.querySelector('input[name^="header_location_address_"]');
+            const locLat = content.querySelector('input[name^="header_location_lat_"]');
+            const locLng = content.querySelector('input[name^="header_location_lng_"]');
+            if (!locName || !locName.value.trim() || !locAddress || !locAddress.value.trim() || !locLat || !locLat.value.trim() || !locLng || !locLng.value.trim()) {
+                errors.push(`All header location fields are required for ${lang}`);
+                isValid = false;
+            }
+        }
+    });
     
     // Validate at least one language has body content
     const bodyEditors = document.querySelectorAll('.body-editor');
