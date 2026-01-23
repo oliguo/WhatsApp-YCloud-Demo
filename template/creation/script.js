@@ -121,6 +121,15 @@ function updateLanguageVisibility() {
         if (!isSelected) {
             content.classList.remove('active');
         }
+
+        const bodyEditor = content.querySelector('.body-editor');
+        if (bodyEditor) {
+            if (isSelected) {
+                bodyEditor.setAttribute('required', 'required');
+            } else {
+                bodyEditor.removeAttribute('required');
+            }
+        }
     });
 
     if (selected.length > 0) {
@@ -915,6 +924,34 @@ function validateForm() {
             isValid = false;
         }
     }
+
+    // Validate variable density (WhatsApp params/words ratio)
+    if (selectedLangs.length > 0) {
+        selectedLangs.forEach(lang => {
+            const content = document.querySelector(`.lang-content[data-lang="${lang}"]`);
+            if (!content) return;
+
+            const headerSelect = content.querySelector('.header-select');
+            const headerText = content.querySelector('input[name^="header_text_"]')?.value || '';
+            const bodyText = content.querySelector('.body-editor')?.value || '';
+
+            let totalVarCount = 0;
+            let totalWordCount = 0;
+
+            if (headerSelect && headerSelect.value === 'text') {
+                totalVarCount += countVariables(headerText);
+                totalWordCount += countWordsExcludingVariables(headerText);
+            }
+
+            totalVarCount += countVariables(bodyText);
+            totalWordCount += countWordsExcludingVariables(bodyText);
+
+            if (totalVarCount > 0 && totalWordCount < totalVarCount * 3) {
+                errors.push(`Too many variables for ${lang}. Add more text or reduce variables.`);
+                isValid = false;
+            }
+        });
+    }
     
     // Show validation errors
     if (!isValid) {
@@ -940,6 +977,19 @@ function validateForm() {
     }
     
     return isValid;
+}
+
+function countVariables(text) {
+    if (!text) return 0;
+    const matches = text.match(/\{\{\s*[^}]+\s*\}\}/g);
+    return matches ? matches.length : 0;
+}
+
+function countWordsExcludingVariables(text) {
+    if (!text) return 0;
+    const stripped = text.replace(/\{\{\s*[^}]+\s*\}\}/g, ' ');
+    const words = stripped.trim().split(/\s+/).filter(Boolean);
+    return words.length;
 }
 
 // Utility function to escape HTML

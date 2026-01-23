@@ -3,13 +3,13 @@
    ============================================ */
 
 /* Reset and Base Styles */
-#ycloud-template-builder * {
+#whatsapp-template-builder * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-#ycloud-template-builder {
+#whatsapp-template-builder {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     background-color: #f7f7f8;
     color: #0f172a;
@@ -17,7 +17,7 @@
 }
 
 /* Container Layout */
-#ycloud-template-builder .container {
+#whatsapp-template-builder .container {
     display: flex;
     max-width: 1200px;
     margin: 24px auto;
@@ -26,7 +26,7 @@
 }
 
 /* Form Section */
-#ycloud-template-builder .form-section {
+#whatsapp-template-builder .form-section {
     flex: 1;
     background: #ffffff;
     padding: 28px;
@@ -36,7 +36,7 @@
     min-width: 600px;
 }
 
-#ycloud-template-builder .form-section h1 {
+#whatsapp-template-builder .form-section h1 {
     font-size: 22px;
     font-weight: 600;
     margin-bottom: 20px;
@@ -44,21 +44,21 @@
 }
 
 /* Form Groups */
-#ycloud-template-builder .row {
+#whatsapp-template-builder .row {
     display: flex;
     gap: 16px;
     margin-bottom: 18px;
 }
 
-#ycloud-template-builder .form-group {
+#whatsapp-template-builder .form-group {
     margin-bottom: 20px;
 }
 
-#ycloud-template-builder .form-group.half {
+#whatsapp-template-builder .form-group.half {
     flex: 1;
 }
 
-#ycloud-template-builder label {
+#whatsapp-template-builder label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
@@ -66,20 +66,20 @@
     color: #1f2937;
 }
 
-#ycloud-template-builder .info-icon {
+#whatsapp-template-builder .info-icon {
     color: #999;
     cursor: help;
     font-size: 14px;
 }
 
 /* Input Styles */
-#ycloud-template-builder input[type="text"],
-#ycloud-template-builder input[type="password"],
-#ycloud-template-builder input[type="url"],
-#ycloud-template-builder input[type="number"],
-#ycloud-template-builder input[type="tel"],
-#ycloud-template-builder select,
-#ycloud-template-builder textarea {
+#whatsapp-template-builder input[type="text"],
+#whatsapp-template-builder input[type="password"],
+#whatsapp-template-builder input[type="url"],
+#whatsapp-template-builder input[type="number"],
+#whatsapp-template-builder input[type="tel"],
+#whatsapp-template-builder select,
+#whatsapp-template-builder textarea {
     width: 100%;
     padding: 12px 14px;
     border: 1px solid #e5e7eb;
@@ -90,23 +90,23 @@
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-#ycloud-template-builder input[type="text"]:focus,
-#ycloud-template-builder input[type="password"]:focus,
-#ycloud-template-builder input[type="url"]:focus,
-#ycloud-template-builder input[type="number"]:focus,
-#ycloud-template-builder input[type="tel"]:focus,
-#ycloud-template-builder select:focus,
-#ycloud-template-builder textarea:focus {
+#whatsapp-template-builder input[type="text"]:focus,
+#whatsapp-template-builder input[type="password"]:focus,
+#whatsapp-template-builder input[type="url"]:focus,
+#whatsapp-template-builder input[type="number"]:focus,
+#whatsapp-template-builder input[type="tel"]:focus,
+#whatsapp-template-builder select:focus,
+#whatsapp-template-builder textarea:focus {
     outline: none;
     border-color: #10a37f;
     box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.15);
 }
 
-#ycloud-template-builder .input-wrapper {
+#whatsapp-template-builder .input-wrapper {
     position: relative;
 }
 
-#ycloud-template-builder .counter {
+#whatsapp-template-builder .counter {
     position: absolute;
     right: 12px;
     top: 50%;
@@ -117,7 +117,7 @@
 }
 
 /* Language Section */
-#ycloud-template-builder .language-section {
+#whatsapp-template-builder .language-section {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -127,20 +127,20 @@
     gap: 12px;
 }
 
-#ycloud-template-builder .language-selectors {
+#whatsapp-template-builder .language-selectors {
     display: flex;
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
 }
 
-#ycloud-template-builder .language-select-label {
+#whatsapp-template-builder .language-select-label {
     font-size: 12px;
     color: #6b7280;
     font-weight: 600;
 }
 
-#ycloud-template-builder .language-option {
+#whatsapp-template-builder .language-option {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -152,17 +152,17 @@
     padding: 6px 10px;
 }
 
-#ycloud-template-builder .language-option input {
+#whatsapp-template-builder .language-option input {
     accent-color: #5b5fc7;
 }
 
-#ycloud-template-builder .language-tabs {
+#whatsapp-template-builder .language-tabs {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
 }
 
-#ycloud-template-builder .lang-tab {
+#whatsapp-template-builder .lang-tab {
     background: #f8fafc;
     border: 1px solid #e5e7eb;
     padding: 8px 14px;
@@ -174,24 +174,24 @@
     transition: all 0.2s;
 }
 
-#ycloud-template-builder .lang-tab:hover {
+#whatsapp-template-builder .lang-tab:hover {
     color: #0f172a;
     border-color: #cbd5e1;
 }
 
-#ycloud-template-builder .lang-tab.active {
+#whatsapp-template-builder .lang-tab.active {
     color: #0f172a;
     border-color: #10a37f;
     background: rgba(16, 163, 127, 0.08);
 }
 
-#ycloud-template-builder .required-dot {
+#whatsapp-template-builder .required-dot {
     color: #f44336;
     font-size: 10px;
     margin-left: 2px;
 }
 
-#ycloud-template-builder .ai-translate-btn {
+#whatsapp-template-builder .ai-translate-btn {
     background: #10a37f;
     color: white;
     border: none;
@@ -203,68 +203,68 @@
     transition: background 0.2s;
 }
 
-#ycloud-template-builder .ai-translate-btn:hover {
+#whatsapp-template-builder .ai-translate-btn:hover {
     background: #0f8f6f;
 }
 
 /* Language Content */
-#ycloud-template-builder .lang-content {
+#whatsapp-template-builder .lang-content {
     display: none;
 }
 
-#ycloud-template-builder .lang-content.active {
+#whatsapp-template-builder .lang-content.active {
     display: block;
 }
 
 /* Header Section */
-#ycloud-template-builder .header-select {
+#whatsapp-template-builder .header-select {
     margin-bottom: 10px;
 }
 
-#ycloud-template-builder .header-text-container {
+#whatsapp-template-builder .header-text-container {
     display: flex;
     gap: 10px;
     align-items: center;
     margin-top: 10px;
 }
 
-#ycloud-template-builder .header-media-container {
+#whatsapp-template-builder .header-media-container {
     display: flex;
     gap: 10px;
     align-items: center;
     margin-top: 10px;
 }
 
-#ycloud-template-builder .header-media-container select,
-#ycloud-template-builder .header-media-container input {
+#whatsapp-template-builder .header-media-container select,
+#whatsapp-template-builder .header-media-container input {
     flex: 1;
 }
 
-#ycloud-template-builder .header-location-container {
+#whatsapp-template-builder .header-location-container {
     margin-top: 10px;
 }
 
-#ycloud-template-builder .location-grid {
+#whatsapp-template-builder .location-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
 }
 
-#ycloud-template-builder .header-location-container input {
+#whatsapp-template-builder .header-location-container input {
     width: 100%;
 }
 
-#ycloud-template-builder .header-location-container input::placeholder {
+#whatsapp-template-builder .header-location-container input::placeholder {
     color: #9aa0a6;
 }
 
-#ycloud-template-builder .location-grid input:nth-child(1),
-#ycloud-template-builder .location-grid input:nth-child(2) {
+#whatsapp-template-builder .location-grid input:nth-child(1),
+#whatsapp-template-builder .location-grid input:nth-child(2) {
     grid-column: span 2;
 }
 
 /* Location header preview */
-#ycloud-template-builder .preview-header.location-header {
+#whatsapp-template-builder .preview-header.location-header {
     background: #f4f1fb;
     border-radius: 10px;
     padding: 12px;
@@ -274,7 +274,7 @@
 }
 
 /* Media header preview */
-#ycloud-template-builder .preview-header.media-header {
+#whatsapp-template-builder .preview-header.media-header {
     background: #f2f2f7;
     border-radius: 10px;
     padding: 12px;
@@ -283,7 +283,7 @@
     gap: 10px;
 }
 
-#ycloud-template-builder .media-thumb {
+#whatsapp-template-builder .media-thumb {
     width: 100%;
     height: 140px;
     border-radius: 8px;
@@ -295,7 +295,7 @@
     color: #6b6b7a;
 }
 
-#ycloud-template-builder .media-meta {
+#whatsapp-template-builder .media-meta {
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -303,7 +303,7 @@
     color: #4a4a57;
 }
 
-#ycloud-template-builder .media-pill {
+#whatsapp-template-builder .media-pill {
     display: inline-block;
     background: #dfe3ff;
     color: #3843a6;
@@ -313,12 +313,12 @@
     font-size: 12px;
 }
 
-#ycloud-template-builder .media-url {
+#whatsapp-template-builder .media-url {
     color: #6b6b7a;
     word-break: break-all;
 }
 
-#ycloud-template-builder .location-icon {
+#whatsapp-template-builder .location-icon {
     width: 42px;
     height: 42px;
     border-radius: 50%;
@@ -331,7 +331,7 @@
     flex-shrink: 0;
 }
 
-#ycloud-template-builder .location-text {
+#whatsapp-template-builder .location-text {
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -339,7 +339,7 @@
     color: #4b2b7f;
 }
 
-#ycloud-template-builder .location-pill {
+#whatsapp-template-builder .location-pill {
     display: inline-block;
     background: #e7def7;
     color: #4b2b7f;
@@ -348,7 +348,7 @@
     font-size: 13px;
 }
 
-#ycloud-template-builder .header-text-container input {
+#whatsapp-template-builder .header-text-container input {
     flex: 1;
 }
 
@@ -358,15 +358,15 @@
    ============================================ */
 
 /* Toolbar */
-#ycloud-template-builder .toolbar {
+#whatsapp-template-builder .toolbar {
     display: flex;
     gap: 8px;
     margin-bottom: 10px;
     flex-wrap: wrap;
 }
 
-#ycloud-template-builder .tool-btn,
-#ycloud-template-builder .var-btn {
+#whatsapp-template-builder .tool-btn,
+#whatsapp-template-builder .var-btn {
     background: #f8fafc;
     border: 1px solid #e5e7eb;
     padding: 8px 12px;
@@ -377,23 +377,23 @@
     transition: all 0.2s;
 }
 
-#ycloud-template-builder .tool-btn:hover,
-#ycloud-template-builder .var-btn:hover {
+#whatsapp-template-builder .tool-btn:hover,
+#whatsapp-template-builder .var-btn:hover {
     background: #eef2f6;
     border-color: #cbd5e1;
 }
 
-#ycloud-template-builder .tool-btn:active {
+#whatsapp-template-builder .tool-btn:active {
     background: #e2e8f0;
 }
 
 
 /* Editor */
-#ycloud-template-builder .editor-wrapper {
+#whatsapp-template-builder .editor-wrapper {
     position: relative;
 }
 
-#ycloud-template-builder .body-editor {
+#whatsapp-template-builder .body-editor {
     min-height: 180px;
     resize: vertical;
     font-family: 'Courier New', monospace;
@@ -401,12 +401,12 @@
     padding-right: 80px;
 }
 
-#ycloud-template-builder .editor-wrapper .counter {
+#whatsapp-template-builder .editor-wrapper .counter {
     top: auto;
     bottom: 12px;
 }
 
-#ycloud-template-builder .error-message {
+#whatsapp-template-builder .error-message {
     color: #b42318;
     font-size: 12px;
     margin-top: 8px;
@@ -416,16 +416,16 @@
 }
 
 /* Buttons Section */
-#ycloud-template-builder .add-button-select {
+#whatsapp-template-builder .add-button-select {
     width: 100%;
     margin-top: 10px;
 }
 
-#ycloud-template-builder #buttonsContainer {
+#whatsapp-template-builder #buttonsContainer {
     margin-bottom: 10px;
 }
 
-#ycloud-template-builder .button-item {
+#whatsapp-template-builder .button-item {
     background: #f8fafc;
     border: 1px solid #e5e7eb;
     border-radius: 10px;
@@ -434,17 +434,17 @@
     position: relative;
 }
 
-#ycloud-template-builder .button-item label {
+#whatsapp-template-builder .button-item label {
     font-size: 13px;
     margin-bottom: 5px;
 }
 
-#ycloud-template-builder .button-item input,
-#ycloud-template-builder .button-item select {
+#whatsapp-template-builder .button-item input,
+#whatsapp-template-builder .button-item select {
     margin-bottom: 10px;
 }
 
-#ycloud-template-builder .button-remove {
+#whatsapp-template-builder .button-remove {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -457,19 +457,19 @@
     font-size: 12px;
 }
 
-#ycloud-template-builder .button-remove:hover {
+#whatsapp-template-builder .button-remove:hover {
     background: #dc2626;
 }
 
 /* Advanced Settings */
-#ycloud-template-builder h3 {
+#whatsapp-template-builder h3 {
     font-size: 15px;
     font-weight: 600;
     margin: 25px 0 15px;
     color: #111827;
 }
 
-#ycloud-template-builder .toggle-label {
+#whatsapp-template-builder .toggle-label {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -477,11 +477,11 @@
     user-select: none;
 }
 
-#ycloud-template-builder .toggle-label input[type="checkbox"] {
+#whatsapp-template-builder .toggle-label input[type="checkbox"] {
     display: none;
 }
 
-#ycloud-template-builder .toggle-switch {
+#whatsapp-template-builder .toggle-switch {
     position: relative;
     width: 44px;
     height: 24px;
@@ -490,7 +490,7 @@
     transition: background 0.3s;
 }
 
-#ycloud-template-builder .toggle-switch::after {
+#whatsapp-template-builder .toggle-switch::after {
     content: '';
     position: absolute;
     width: 18px;
@@ -503,16 +503,16 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-#ycloud-template-builder .toggle-label input:checked + .toggle-switch {
+#whatsapp-template-builder .toggle-label input:checked + .toggle-switch {
     background: #10a37f;
 }
 
-#ycloud-template-builder .toggle-label input:checked + .toggle-switch::after {
+#whatsapp-template-builder .toggle-label input:checked + .toggle-switch::after {
     left: 23px;
 }
 
 /* Form Actions */
-#ycloud-template-builder .form-actions {
+#whatsapp-template-builder .form-actions {
     display: flex;
     gap: 12px;
     margin-top: 30px;
@@ -520,7 +520,7 @@
     border-top: 1px solid #eef2f6;
 }
 
-#ycloud-template-builder .btn-submit {
+#whatsapp-template-builder .btn-submit {
     background: #10a37f;
     color: white;
     border: none;
@@ -532,11 +532,11 @@
     transition: background 0.3s;
 }
 
-#ycloud-template-builder .btn-submit:hover {
+#whatsapp-template-builder .btn-submit:hover {
     background: #0f8f6f;
 }
 
-#ycloud-template-builder .btn-cancel {
+#whatsapp-template-builder .btn-cancel {
     background: white;
     color: #0f172a;
     border: 1px solid #e5e7eb;
@@ -548,7 +548,7 @@
     transition: all 0.3s;
 }
 
-#ycloud-template-builder .btn-cancel:hover {
+#whatsapp-template-builder .btn-cancel:hover {
     background: #f8fafc;
     border-color: #cbd5e1;
 }
@@ -559,14 +559,14 @@
    ============================================ */
 
 /* Preview Section */
-#ycloud-template-builder .preview-section {
+#whatsapp-template-builder .preview-section {
     width: 380px;
     position: sticky;
     top: 24px;
     height: fit-content;
 }
 
-#ycloud-template-builder .phone-mockup {
+#whatsapp-template-builder .phone-mockup {
     width: 360px;
     height: 720px;
     background: #111827;
@@ -576,7 +576,7 @@
     box-shadow: 0 8px 24px rgba(16, 24, 40, 0.2);
 }
 
-#ycloud-template-builder .phone-header {
+#whatsapp-template-builder .phone-header {
     background: #0f172a;
     color: white;
     padding: 10px 14px;
@@ -586,23 +586,23 @@
     border-radius: 22px 22px 0 0;
 }
 
-#ycloud-template-builder .phone-time {
+#whatsapp-template-builder .phone-time {
     font-size: 13px;
     font-weight: 600;
 }
 
-#ycloud-template-builder .phone-status-icons {
+#whatsapp-template-builder .phone-status-icons {
     font-size: 12px;
 }
 
-#ycloud-template-builder .phone-content {
+#whatsapp-template-builder .phone-content {
     background: #f3f4f6;
     height: 600px;
     padding: 15px;
     overflow-y: auto;
 }
 
-#ycloud-template-builder .whatsapp-message {
+#whatsapp-template-builder .whatsapp-message {
     background: white;
     padding: 12px;
     border-radius: 12px;
@@ -612,20 +612,20 @@
     word-wrap: break-word;
 }
 
-#ycloud-template-builder .preview-header {
+#whatsapp-template-builder .preview-header {
     font-weight: 600;
     margin-bottom: 8px;
     color: #333;
 }
 
-#ycloud-template-builder .preview-body {
+#whatsapp-template-builder .preview-body {
     white-space: pre-wrap;
     margin: 10px 0;
     font-size: 14px;
     line-height: 1.5;
 }
 
-#ycloud-template-builder .preview-footer {
+#whatsapp-template-builder .preview-footer {
     color: #666;
     font-size: 12px;
     margin-top: 10px;
@@ -633,18 +633,18 @@
     border-top: 1px solid #f0f0f0;
 }
 
-#ycloud-template-builder .message-time {
+#whatsapp-template-builder .message-time {
     text-align: right;
     font-size: 11px;
     color: #999;
     margin-top: 6px;
 }
 
-#ycloud-template-builder .preview-buttons {
+#whatsapp-template-builder .preview-buttons {
     margin-top: 12px;
 }
 
-#ycloud-template-builder .preview-buttons button {
+#whatsapp-template-builder .preview-buttons button {
     display: block;
     width: 100%;
     padding: 10px;
@@ -659,11 +659,11 @@
     transition: background 0.2s;
 }
 
-#ycloud-template-builder .preview-buttons button:hover {
+#whatsapp-template-builder .preview-buttons button:hover {
     background: #f8fafc;
 }
 
-#ycloud-template-builder .phone-footer {
+#whatsapp-template-builder .phone-footer {
     background: #f8fafc;
     padding: 10px;
     display: flex;
@@ -672,12 +672,12 @@
     border-radius: 0 0 22px 22px;
 }
 
-#ycloud-template-builder .emoji-btn {
+#whatsapp-template-builder .emoji-btn {
     font-size: 20px;
     cursor: pointer;
 }
 
-#ycloud-template-builder .phone-footer input {
+#whatsapp-template-builder .phone-footer input {
     flex: 1;
     padding: 8px 12px;
     border: 1px solid #e5e7eb;
@@ -686,7 +686,7 @@
     font-size: 13px;
 }
 
-#ycloud-template-builder .send-icon {
+#whatsapp-template-builder .send-icon {
     background: #10a37f;
     color: white;
     border: none;
@@ -701,7 +701,7 @@
 }
 
 /* Modal */
-#ycloud-template-builder .modal {
+#whatsapp-template-builder .modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -713,7 +713,7 @@
     justify-content: center;
 }
 
-#ycloud-template-builder .modal-overlay {
+#whatsapp-template-builder .modal-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -722,7 +722,7 @@
     background: rgba(0, 0, 0, 0.5);
 }
 
-#ycloud-template-builder .modal-content {
+#whatsapp-template-builder .modal-content {
     position: relative;
     background: white;
     padding: 30px;
@@ -733,38 +733,38 @@
     z-index: 1001;
 }
 
-#ycloud-template-builder .modal-content h3 {
+#whatsapp-template-builder .modal-content h3 {
     margin: 0 0 10px 0;
     font-size: 18px;
 }
 
-#ycloud-template-builder .modal-content p {
+#whatsapp-template-builder .modal-content p {
     margin-bottom: 20px;
     font-size: 13px;
     color: #666;
     line-height: 1.5;
 }
 
-#ycloud-template-builder .modal-form-group {
+#whatsapp-template-builder .modal-form-group {
     margin-bottom: 15px;
 }
 
-#ycloud-template-builder .modal-form-group label {
+#whatsapp-template-builder .modal-form-group label {
     margin-bottom: 6px;
 }
 
-#ycloud-template-builder .modal-form-group input {
+#whatsapp-template-builder .modal-form-group input {
     width: 100%;
 }
 
-#ycloud-template-builder .modal-actions {
+#whatsapp-template-builder .modal-actions {
     display: flex;
     gap: 10px;
     justify-content: flex-end;
     margin-top: 25px;
 }
 
-#ycloud-template-builder .btn-ok {
+#whatsapp-template-builder .btn-ok {
     background: #5b5fc7;
     color: white;
     border: none;
@@ -775,21 +775,21 @@
     font-weight: 500;
 }
 
-#ycloud-template-builder .btn-ok:hover {
+#whatsapp-template-builder .btn-ok:hover {
     background: #4a4fb0;
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-    #ycloud-template-builder .container {
+    #whatsapp-template-builder .container {
         flex-direction: column;
     }
     
-    #ycloud-template-builder .form-section {
+    #whatsapp-template-builder .form-section {
         min-width: auto;
     }
     
-    #ycloud-template-builder .preview-section {
+    #whatsapp-template-builder .preview-section {
         width: 100%;
         display: flex;
         justify-content: center;
@@ -798,20 +798,20 @@
 }
 
 @media (max-width: 768px) {
-    #ycloud-template-builder .row {
+    #whatsapp-template-builder .row {
         flex-direction: column;
     }
     
-    #ycloud-template-builder .form-group.half {
+    #whatsapp-template-builder .form-group.half {
         width: 100%;
     }
     
-    #ycloud-template-builder .phone-mockup {
+    #whatsapp-template-builder .phone-mockup {
         width: 320px;
         height: 640px;
     }
     
-    #ycloud-template-builder .phone-content {
+    #whatsapp-template-builder .phone-content {
         height: 520px;
     }
 }
