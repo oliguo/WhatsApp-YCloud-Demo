@@ -84,6 +84,58 @@ function buildExamplesForText($text, $sampleMap = []) {
 	return $examples;
 }
 
+function normalizeVariablesForText($text, $sampleMap = [], $maxVars = null) {
+	if (!$text) {
+		return [
+			'text' => $text,
+			'examples' => null,
+			'varCount' => 0
+		];
+	}
+
+	preg_match_all('/\{\{\s*([^}]+)\s*\}\}/', $text, $matches);
+	$vars = $matches[1] ?? [];
+	if (empty($vars)) {
+		return [
+			'text' => $text,
+			'examples' => null,
+			'varCount' => 0
+		];
+	}
+
+	$indexMap = [];
+	$examples = [];
+	$nextIndex = 1;
+
+	foreach ($vars as $var) {
+		$key = trim($var);
+		if (!isset($indexMap[$key])) {
+			$indexMap[$key] = $nextIndex;
+			$sample = isset($sampleMap[$key]) && $sampleMap[$key] !== '' ? $sampleMap[$key] : "sample{$nextIndex}";
+			$examples[] = $sample;
+			$nextIndex++;
+			if ($maxVars !== null && count($indexMap) > $maxVars) {
+				return [
+					'error' => "Too many variables in text. Max allowed: {$maxVars}.",
+					'text' => $text
+				];
+			}
+		}
+	}
+
+	$normalizedText = preg_replace_callback('/\{\{\s*([^}]+)\s*\}\}/', function($match) use ($indexMap) {
+		$key = trim($match[1]);
+		$index = $indexMap[$key] ?? 1;
+		return '{{' . $index . '}}';
+	}, $text);
+
+	return [
+		'text' => $normalizedText,
+		'examples' => $examples,
+		'varCount' => count($indexMap)
+	];
+}
+
 function normalizeUrlWithVariable($url, $isDynamic) {
 	if (!$url) {
 		return $url;
@@ -205,16 +257,23 @@ foreach ($languages as $lang) {
 	$headerText = isset($_POST[$headerTextKey]) ? trim($_POST[$headerTextKey]) : '';
 
 	if ($headerType === 'text' && $headerText !== '') {
+		$normalizedHeader = normalizeVariablesForText($headerText, $sampleMap, 1);
+		if (!empty($normalizedHeader['error'])) {
+			respond([
+				'error' => $normalizedHeader['error'],
+				'language' => $langCode,
+				'field' => 'header_text'
+			], 400);
+		}
 		$headerComponent = [
 			'type' => 'HEADER',
 			'format' => 'TEXT',
-			'text' => $headerText
+			'text' => $normalizedHeader['text']
 		];
 
-		$headerExamples = buildExamplesForText($headerText, $sampleMap);
-		if ($headerExamples) {
+		if (!empty($normalizedHeader['examples'])) {
 			$headerComponent['example'] = [
-				'header_text' => [$headerExamples[0]]
+				'header_text' => [$normalizedHeader['examples'][0]]
 			];
 		}
 
@@ -276,15 +335,15 @@ foreach ($languages as $lang) {
 		];
 	}
 
+	$normalizedBody = normalizeVariablesForText($bodyText, $sampleMap, null);
 	$bodyComponent = [
 		'type' => 'BODY',
-		'text' => $bodyText
+		'text' => $normalizedBody['text']
 	];
 
-	$bodyExamples = buildExamplesForText($bodyText, $sampleMap);
-	if ($bodyExamples) {
+	if (!empty($normalizedBody['examples'])) {
 		$bodyComponent['example'] = [
-			'body_text' => [$bodyExamples]
+			'body_text' => [$normalizedBody['examples']]
 		];
 	}
 
@@ -292,6 +351,14 @@ foreach ($languages as $lang) {
 
 	$footerText = isset($_POST[$footerKey]) ? trim($_POST[$footerKey]) : '';
 	if ($footerText !== '') {
+		$footerVars = findVariables($footerText);
+		if (!empty($footerVars)) {
+			respond([
+				'error' => 'Footer cannot contain variables.',
+				'language' => $langCode,
+				'field' => 'footer'
+			], 400);
+		}
 		$components[] = [
 			'type' => 'FOOTER',
 			'text' => $footerText

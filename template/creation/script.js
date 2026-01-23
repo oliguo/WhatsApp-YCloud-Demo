@@ -898,6 +898,20 @@ function validateForm() {
                 isValid = false;
             }
         }
+
+        if (headerSelect.value === 'text') {
+            const headerValue = content.querySelector('input[name^="header_text_"]')?.value || '';
+            if (countVariables(headerValue) > 1) {
+                errors.push(`Header text supports at most 1 variable for ${lang}`);
+                isValid = false;
+            }
+        }
+
+        const footerValue = content.querySelector('input[name^="footer_"]')?.value || '';
+        if (countVariables(footerValue) > 0) {
+            errors.push(`Footer cannot contain variables for ${lang}`);
+            isValid = false;
+        }
     });
     
     // Validate selected languages
@@ -925,33 +939,28 @@ function validateForm() {
         }
     }
 
-    // Validate variable density (WhatsApp params/words ratio)
-    if (selectedLangs.length > 0) {
-        selectedLangs.forEach(lang => {
-            const content = document.querySelector(`.lang-content[data-lang="${lang}"]`);
-            if (!content) return;
-
-            const headerSelect = content.querySelector('.header-select');
-            const headerText = content.querySelector('input[name^="header_text_"]')?.value || '';
-            const bodyText = content.querySelector('.body-editor')?.value || '';
-
-            let totalVarCount = 0;
-            let totalWordCount = 0;
-
-            if (headerSelect && headerSelect.value === 'text') {
-                totalVarCount += countVariables(headerText);
-                totalWordCount += countWordsExcludingVariables(headerText);
-            }
-
-            totalVarCount += countVariables(bodyText);
-            totalWordCount += countWordsExcludingVariables(bodyText);
-
-            if (totalVarCount > 0 && totalWordCount < totalVarCount * 3) {
-                errors.push(`Too many variables for ${lang}. Add more text or reduce variables.`);
+    // Variable density validation - WhatsApp requires sufficient text per variable
+    // Rule: At least 3 words of actual text per variable in the body
+    selectedLangs.forEach(lang => {
+        const content = document.querySelector(`.lang-content[data-lang="${lang}"]`);
+        const editor = content ? content.querySelector('.body-editor') : null;
+        if (editor && editor.value.trim()) {
+            const bodyText = editor.value.trim();
+            const varCount = countVariables(bodyText);
+            const wordCount = countWordsExcludingVariables(bodyText);
+            
+            if (varCount > 0 && wordCount < varCount * 3) {
+                const needed = varCount * 3;
+                errors.push(
+                    `Body text (${lang.toUpperCase()}) needs more content.\n` +
+                    `   • You have ${varCount} variable(s) but only ${wordCount} word(s) of text.\n` +
+                    `   • WhatsApp requires at least ${needed} words when using ${varCount} variable(s).\n` +
+                    `   • Tip: Add more descriptive text around your variables.`
+                );
                 isValid = false;
             }
-        });
-    }
+        }
+    });
     
     // Show validation errors
     if (!isValid) {
@@ -991,6 +1000,7 @@ function countWordsExcludingVariables(text) {
     const words = stripped.trim().split(/\s+/).filter(Boolean);
     return words.length;
 }
+
 
 // Utility function to escape HTML
 function escapeHtml(text) {
