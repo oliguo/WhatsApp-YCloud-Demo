@@ -444,6 +444,20 @@
     margin-bottom: 10px;
 }
 
+#whatsapp-template-builder .button-item .hint {
+    font-size: 11px;
+    color: #6b7280;
+    font-weight: 400;
+}
+
+#whatsapp-template-builder .button-item .dynamic-url-suffix {
+    margin-top: 5px;
+    padding: 10px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    border: 1px dashed #cbd5e1;
+}
+
 #whatsapp-template-builder .button-remove {
     position: absolute;
     top: 10px;

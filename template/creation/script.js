@@ -534,12 +534,16 @@ function addButton(type) {
             <label>Button Text</label>
             <input type="text" name="button_text_${buttonCount}" placeholder="Enter button text" maxlength="25" required>
             <label>URL Type</label>
-            <select name="url_type_${buttonCount}">
+            <select name="url_type_${buttonCount}" class="url-type-select" data-button-id="${buttonCount}">
                 <option value="static">Static</option>
                 <option value="dynamic">Dynamic</option>
             </select>
             <label>Website URL</label>
             <input type="url" name="button_url_${buttonCount}" placeholder="https://example.com" required>
+            <div class="dynamic-url-suffix" id="dynamic_suffix_${buttonCount}" style="display:none;">
+                <label>URL Path/Parameter Example <span class="hint">(Sample value to replace the variable, e.g. "abc123")</span></label>
+                <input type="text" name="button_url_suffix_${buttonCount}" placeholder="e.g. abc123, promo456 (just the value, no {{1}})">
+            </div>
         `;
     } else if (type === 'call_phone') {
         buttonHTML += `
@@ -551,9 +555,9 @@ function addButton(type) {
     } else if (type === 'copy_offer') {
         buttonHTML += `
             <label>Button Text</label>
-            <input type="text" name="button_text_${buttonCount}" placeholder="Enter button text" maxlength="25" required>
-            <label>Offer Code</label>
-            <input type="text" name="button_code_${buttonCount}" placeholder="Enter offer code" required>
+            <input type="text" name="button_text_${buttonCount}" placeholder="Copy offer code" maxlength="25" required>
+            <label>Example Offer Code <span class="hint">(Sample code for template approval)</span></label>
+            <input type="text" name="button_code_example_${buttonCount}" placeholder="e.g. SAVE20, WELCOME10" required>
         `;
     } else if (type === 'whatsapp_flow') {
         buttonHTML += `
@@ -566,6 +570,20 @@ function addButton(type) {
     
     buttonDiv.innerHTML = buttonHTML;
     container.appendChild(buttonDiv);
+    
+    // Add event listener for URL type toggle (for website buttons)
+    if (type === 'visit_website') {
+        const urlTypeSelect = buttonDiv.querySelector('.url-type-select');
+        if (urlTypeSelect) {
+            urlTypeSelect.addEventListener('change', function() {
+                const btnId = this.getAttribute('data-button-id');
+                const suffixDiv = document.getElementById(`dynamic_suffix_${btnId}`);
+                if (suffixDiv) {
+                    suffixDiv.style.display = this.value === 'dynamic' ? 'block' : 'none';
+                }
+            });
+        }
+    }
     
     // Update counts
     buttonCount++;

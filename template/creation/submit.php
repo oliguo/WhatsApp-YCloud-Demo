@@ -141,7 +141,15 @@ function normalizeUrlWithVariable($url, $isDynamic) {
 		return $url;
 	}
 	if ($isDynamic && strpos($url, '{{') === false) {
-		return rtrim($url, '/') . '{{1}}';
+		// Add / before {{1}} if URL doesn't end with ? or &
+		$url = rtrim($url, '/');
+		if (strpos($url, '?') !== false) {
+			// URL has query string, append with &
+			return $url . '&path={{1}}';
+		} else {
+			// Add as path segment
+			return $url . '/{{1}}';
+		}
 	}
 	return $url;
 }
@@ -187,7 +195,8 @@ function extractButtonsFromPost($post, $sampleMap = []) {
 			$phoneKey = 'button_phone_' . $index;
 			$urlKey = 'button_url_' . $index;
 			$urlTypeKey = 'url_type_' . $index;
-			$codeKey = 'button_code_' . $index;
+			$urlSuffixKey = 'button_url_suffix_' . $index;
+			$codeExampleKey = 'button_code_example_' . $index;
 			$flowKey = 'button_flow_' . $index;
 
 			if (!empty($post[$phoneKey])) {
@@ -200,13 +209,27 @@ function extractButtonsFromPost($post, $sampleMap = []) {
 				$normalizedUrl = normalizeUrlWithVariable(trim($post[$urlKey]), $isDynamic);
 				$button['url'] = $normalizedUrl;
 
-				$sampleUrl = applySamplesToText($normalizedUrl, $sampleMap);
-				if ($sampleUrl !== $normalizedUrl) {
-					$button['example'] = [$sampleUrl];
+				// For dynamic URLs, build example with suffix value
+				if ($isDynamic) {
+					$suffixValue = !empty($post[$urlSuffixKey]) ? trim($post[$urlSuffixKey]) : 'example';
+					// Strip any {{...}} from suffix value in case user included variable syntax
+					$suffixValue = preg_replace('/\{\{[^}]*\}\}/', '', $suffixValue);
+					if (empty($suffixValue)) {
+						$suffixValue = 'example';
+					}
+					// Replace {{1}} in the URL with the suffix value
+					$exampleUrl = preg_replace('/\{\{\s*1\s*\}\}/', $suffixValue, $normalizedUrl);
+					$button['example'] = [$exampleUrl];
+				} else {
+					$sampleUrl = applySamplesToText($normalizedUrl, $sampleMap);
+					if ($sampleUrl !== $normalizedUrl) {
+						$button['example'] = [$sampleUrl];
+					}
 				}
-			} elseif (!empty($post[$codeKey])) {
+			} elseif (!empty($post[$codeExampleKey])) {
 				$button['type'] = 'COPY_CODE';
-				$button['text'] = $text;
+				// For COPY_CODE, text is the button label and example is the sample code
+				$button['example'] = [trim($post[$codeExampleKey])];
 			} elseif (!empty($post[$flowKey])) {
 				$button['type'] = 'FLOW';
 				$button['flow_id'] = trim($post[$flowKey]);
