@@ -228,7 +228,8 @@ function extractButtonsFromPost($post, $sampleMap = []) {
 				}
 			} elseif (!empty($post[$codeExampleKey])) {
 				$button['type'] = 'COPY_CODE';
-				// For COPY_CODE, text is the button label and example is the sample code
+				// COPY_CODE buttons have fixed text, don't include 'text' field
+				unset($button['text']);
 				$button['example'] = [trim($post[$codeExampleKey])];
 			} elseif (!empty($post[$flowKey])) {
 				$button['type'] = 'FLOW';

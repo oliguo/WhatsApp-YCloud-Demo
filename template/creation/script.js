@@ -426,7 +426,6 @@ function updateVariableSamples(lang, varName, varSample) {
 let buttonCount = 0;
 let buttonTypeCounts = {
     'quick_reply': 0,
-    'custom': 0,
     'call_phone': 0,
     'visit_website': 0,
     'copy_offer': 0,
@@ -436,7 +435,6 @@ let buttonTypeCounts = {
 // Button type limits
 const buttonTypeLimits = {
     'quick_reply': 10,
-    'custom': 10,
     'call_phone': 1,
     'visit_website': 2,
     'copy_offer': 1,
@@ -524,7 +522,7 @@ function addButton(type) {
     `;
     
     // Different fields based on button type
-    if (type === 'quick_reply' || type === 'custom') {
+    if (type === 'quick_reply') {
         buttonHTML += `
             <label>Button Text</label>
             <input type="text" name="button_text_${buttonCount}" placeholder="Enter button text" maxlength="25" required>
@@ -554,8 +552,7 @@ function addButton(type) {
         `;
     } else if (type === 'copy_offer') {
         buttonHTML += `
-            <label>Button Text</label>
-            <input type="text" name="button_text_${buttonCount}" placeholder="Copy offer code" maxlength="25" required>
+            <p class="hint" style="margin-bottom:10px;">Button text is fixed as "Copy offer code" by WhatsApp</p>
             <label>Example Offer Code <span class="hint">(Sample code for template approval)</span></label>
             <input type="text" name="button_code_example_${buttonCount}" placeholder="e.g. SAVE20, WELCOME10" required>
         `;
@@ -614,7 +611,6 @@ function removeButton(button) {
 function getButtonTypeLabel(type) {
     const labels = {
         'quick_reply': 'Quick Reply',
-        'custom': 'Custom Button',
         'visit_website': 'Visit Website',
         'call_phone': 'Call Phone Number',
         'copy_offer': 'Copy Offer Code',
@@ -627,7 +623,6 @@ function getButtonTypeLabel(type) {
 function getButtonIcon(type) {
     const icons = {
         'quick_reply': '↩️',
-        'custom': '⭐',
         'call_phone': '📞',
         'visit_website': '🔗',
         'copy_offer': '📋',
