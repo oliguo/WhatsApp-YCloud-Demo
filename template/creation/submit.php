@@ -201,7 +201,9 @@ function extractButtonsFromPost($post, $sampleMap = []) {
 
 			if (!empty($post[$phoneKey])) {
 				$button['type'] = 'PHONE_NUMBER';
-				$button['phone_number'] = trim($post[$phoneKey]);
+				// Remove + and any non-digit characters, WhatsApp requires digits only
+				$phone = preg_replace('/[^0-9]/', '', trim($post[$phoneKey]));
+				$button['phone_number'] = $phone;
 			} elseif (!empty($post[$urlKey])) {
 				$button['type'] = 'URL';
 				$urlType = isset($post[$urlTypeKey]) ? $post[$urlTypeKey] : 'static';
@@ -239,6 +241,20 @@ function extractButtonsFromPost($post, $sampleMap = []) {
 			$buttons[] = $button;
 		}
 	}
+
+	// Sort buttons: Quick Reply buttons first, then Call-to-Action buttons
+	// WhatsApp requires buttons to be organized into groups
+	usort($buttons, function($a, $b) {
+		$aIsQuickReply = $a['type'] === 'QUICK_REPLY';
+		$bIsQuickReply = $b['type'] === 'QUICK_REPLY';
+		
+		if ($aIsQuickReply && !$bIsQuickReply) {
+			return -1; // Quick Reply comes first
+		} elseif (!$aIsQuickReply && $bIsQuickReply) {
+			return 1; // CTA comes after
+		}
+		return 0; // Keep original order within same group
+	});
 
 	return $buttons;
 }

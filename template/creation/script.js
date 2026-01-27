@@ -547,8 +547,8 @@ function addButton(type) {
         buttonHTML += `
             <label>Button Text</label>
             <input type="text" name="button_text_${buttonCount}" placeholder="Enter button text" maxlength="25" required>
-            <label>Phone Number</label>
-            <input type="tel" name="button_phone_${buttonCount}" placeholder="+852 1234 5678" required>
+            <label>Phone Number <span class="hint">(Country code + number, e.g. 85291234567)</span></label>
+            <input type="tel" name="button_phone_${buttonCount}" placeholder="85291234567" required>
         `;
     } else if (type === 'copy_offer') {
         buttonHTML += `
@@ -970,6 +970,20 @@ function validateForm() {
                     `   • WhatsApp requires at least ${needed} words when using ${varCount} variable(s).\n` +
                     `   • Tip: Add more descriptive text around your variables.`
                 );
+                isValid = false;
+            }
+            
+            // Check if variable is at start or end of body
+            const varPattern = /\{\{\s*[^}]+\s*\}\}/g;
+            const startsWithVar = /^\s*\{\{\s*[^}]+\s*\}\}/.test(bodyText);
+            const endsWithVar = /\{\{\s*[^}]+\s*\}\}\s*$/.test(bodyText);
+            
+            if (startsWithVar) {
+                errors.push(`Body text (${lang.toUpperCase()}) cannot START with a variable.\n   • Add some text before the first {{variable}}.`);
+                isValid = false;
+            }
+            if (endsWithVar) {
+                errors.push(`Body text (${lang.toUpperCase()}) cannot END with a variable.\n   • Add some text after the last {{variable}}.`);
                 isValid = false;
             }
         }
