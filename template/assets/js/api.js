@@ -87,13 +87,12 @@ const api = {
   /**
    * Delete a template
    * @param {string} name - Template name
-   * @param {string} language - Optional language (deletes specific language version)
+   * @param {string} language - Template language code
+   * @param {string} wabaId - WhatsApp Business Account ID (required for delete)
    */
-  async deleteTemplate(name, language = null) {
-    let endpoint = `/whatsapp/templates/${name}`;
-    if (language) {
-      endpoint += `?language=${language}`;
-    }
+  async deleteTemplate(name, language, wabaId) {
+    // YCloud API requires: DELETE /whatsapp/templates/{wabaId}/{name}/{language}
+    const endpoint = `/whatsapp/templates/${wabaId}/${name}/${language}`;
     return this.request(endpoint, { method: 'DELETE' });
   }
 };

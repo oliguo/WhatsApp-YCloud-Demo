@@ -347,7 +347,7 @@ async function recreateTemplate() {
   if (!confirmed) return;
   
   try {
-    await api.deleteTemplate(template.name, template.language);
+    await api.deleteTemplate(template.name, template.language, template.wabaId);
     utils.storeTemplateData({
       action: 'recreate',
       template: template
@@ -369,7 +369,7 @@ async function deleteTemplate() {
   if (!confirmed) return;
   
   try {
-    await api.deleteTemplate(template.name, template.language);
+    await api.deleteTemplate(template.name, template.language, template.wabaId);
     utils.showToast(t('view.deleteSuccess'), 'success');
     setTimeout(() => {
       utils.navigateTo('../list/index.php');
