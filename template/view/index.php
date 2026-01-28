@@ -1,3 +1,16 @@
+<?php
+/**
+ * Template View Page
+ */
+
+// Get URL parameters for server-side logging
+$name = isset($_GET['name']) ? $_GET['name'] : '';
+$language = isset($_GET['language']) ? $_GET['language'] : '';
+
+// Log page access
+require_once __DIR__ . '/../api/logger.php';
+Logger::info("View page accessed", ['name' => $name, 'language' => $language]);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,8 +30,8 @@
     </div>
     
     <nav class="wtm-header__nav">
-      <a href="../list/index.html" data-i18n="nav.list">Templates</a>
-      <a href="../creation/index.html" data-i18n="nav.create">Create</a>
+      <a href="../list/index.php" data-i18n="nav.list">Templates</a>
+      <a href="../creation/index.php" data-i18n="nav.create">Create</a>
     </nav>
     
     <div class="wtm-header__actions">
@@ -28,7 +41,7 @@
 
   <main class="wtm-container">
     <!-- Back Link -->
-    <a href="../list/index.html" class="wtm-back-link" data-i18n="view.backToList">← Back to List</a>
+    <a href="../list/index.php" class="wtm-back-link" data-i18n="view.backToList">← Back to List</a>
 
     <!-- Loading State -->
     <div id="loading-state" class="wtm-loading">
@@ -41,7 +54,7 @@
       <div class="wtm-empty__icon">❌</div>
       <h3 class="wtm-empty__title" data-i18n="app.error">Error</h3>
       <p class="wtm-empty__text" id="error-message"></p>
-      <a href="../list/index.html" class="wtm-btn wtm-btn--primary" data-i18n="view.backToList">Back to List</a>
+      <a href="../list/index.php" class="wtm-btn wtm-btn--primary" data-i18n="view.backToList">Back to List</a>
     </div>
 
     <!-- Template Content -->

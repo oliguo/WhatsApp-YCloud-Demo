@@ -63,7 +63,6 @@ const utils = {
       'en_GB': 'English (UK)',
       'zh_CN': '简体中文',
       'zh_HK': '繁體中文（香港）',
-      'zh_TW': '繁體中文（台灣）',
       'es': 'Español',
       'pt_BR': 'Português (BR)',
       'fr': 'Français',

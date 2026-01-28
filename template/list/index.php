@@ -1,3 +1,8 @@
+<?php
+/**
+ * Template List Page
+ */
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,8 +21,8 @@
     </div>
     
     <nav class="wtm-header__nav">
-      <a href="index.html" class="active" data-i18n="nav.list">Templates</a>
-      <a href="../creation/index.html" data-i18n="nav.create">Create</a>
+      <a href="index.php" class="active" data-i18n="nav.list">Templates</a>
+      <a href="../creation/index.php" data-i18n="nav.create">Create</a>
     </nav>
     
     <div class="wtm-header__actions">
@@ -30,7 +35,7 @@
     <div class="wtm-page-header">
       <h1 class="wtm-page-header__title" data-i18n="list.title">WhatsApp Templates</h1>
       <div class="wtm-page-header__actions">
-        <a href="../creation/index.html" class="wtm-btn wtm-btn--primary" data-i18n="list.createNew">+ Create Template</a>
+        <a href="../creation/index.php" class="wtm-btn wtm-btn--primary" data-i18n="list.createNew">+ Create Template</a>
       </div>
     </div>
 

@@ -46,12 +46,25 @@ const api = {
 
   /**
    * Get a single template by name and language
+   * Note: YCloud API doesn't support getting single template by name directly.
+   * We use list endpoint with name filter instead.
    * @param {string} name - Template name
    * @param {string} language - Template language code
    */
   async getTemplate(name, language) {
-    const endpoint = `/whatsapp/templates/${name}?language=${language}`;
-    return this.request(endpoint);
+    // Use list endpoint with name filter since direct get by name doesn't work
+    const endpoint = `/whatsapp/templates?name=${encodeURIComponent(name)}`;
+    const response = await this.request(endpoint);
+    
+    // Find the template with matching language
+    const items = response.items || [];
+    const template = items.find(t => t.language === language);
+    
+    if (!template) {
+      throw new Error(`Template "${name}" not found for language: ${language}`);
+    }
+    
+    return template;
   },
 
   /**

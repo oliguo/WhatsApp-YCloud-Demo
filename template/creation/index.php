@@ -1,3 +1,8 @@
+<?php
+/**
+ * Template Creation Page
+ */
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,8 +22,8 @@
     </div>
     
     <nav class="wtm-header__nav">
-      <a href="../list/index.html" data-i18n="nav.list">Templates</a>
-      <a href="index.html" class="active" data-i18n="nav.create">Create</a>
+      <a href="../list/index.php" data-i18n="nav.list">Templates</a>
+      <a href="index.php" class="active" data-i18n="nav.create">Create</a>
     </nav>
     
     <div class="wtm-header__actions">
@@ -73,9 +78,6 @@
                   </label>
                   <label class="wtm-checkbox">
                     <input type="checkbox" name="languages" value="zh_HK"> 繁體中文（香港）
-                  </label>
-                  <label class="wtm-checkbox">
-                    <input type="checkbox" name="languages" value="zh_TW"> 繁體中文（台灣）
                   </label>
                 </div>
               </div>

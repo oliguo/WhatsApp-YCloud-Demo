@@ -25,9 +25,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadTemplate(name, language) {
   try {
     template = await api.getTemplate(name, language);
+    
+    if (!template) {
+      throw new Error(`Template "${name}" with language "${language}" not found`);
+    }
+    
     renderTemplate();
   } catch (error) {
-    showError(error.message);
+    console.error('Failed to load template:', error);
+    showError(error.message || 'Failed to load template');
   }
 }
 
@@ -327,7 +333,7 @@ function duplicateTemplate() {
     action: 'duplicate',
     template: template
   });
-  utils.navigateTo('../creation/index.html');
+  utils.navigateTo('../creation/index.php');
 }
 
 /**
@@ -346,7 +352,7 @@ async function recreateTemplate() {
       action: 'recreate',
       template: template
     });
-    utils.navigateTo('../creation/index.html');
+    utils.navigateTo('../creation/index.php');
   } catch (error) {
     utils.showToast(error.message, 'error');
   }
@@ -366,7 +372,7 @@ async function deleteTemplate() {
     await api.deleteTemplate(template.name, template.language);
     utils.showToast(t('view.deleteSuccess'), 'success');
     setTimeout(() => {
-      utils.navigateTo('../list/index.html');
+      utils.navigateTo('../list/index.php');
     }, 1000);
   } catch (error) {
     utils.showToast(error.message, 'error');

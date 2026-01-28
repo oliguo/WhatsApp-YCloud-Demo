@@ -7,7 +7,6 @@ const SUPPORTED_LANGUAGES = [
   { code: 'en', name: 'English' },
   { code: 'zh_CN', name: '简体中文' },
   { code: 'zh_HK', name: '繁體中文（香港）' },
-  { code: 'zh_TW', name: '繁體中文（台灣）' },
   { code: 'es', name: 'Español' },
   { code: 'pt_BR', name: 'Português (BR)' },
   { code: 'fr', name: 'Français' },

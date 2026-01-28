@@ -178,7 +178,7 @@ function renderTemplateCard(template) {
  * Navigate to template view
  */
 function viewTemplate(name, language) {
-  utils.navigateTo('../view/index.html', { name, language });
+  utils.navigateTo('../view/index.php', { name, language });
 }
 
 /**

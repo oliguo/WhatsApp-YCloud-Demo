@@ -4,6 +4,9 @@
  * Handles all WhatsApp template API requests
  */
 
+// Load logger
+require_once __DIR__ . '/logger.php';
+
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
@@ -20,12 +23,14 @@ $config = require __DIR__ . '/config.php';
 // Validate config
 if (empty($config['api_key']) || $config['api_key'] === 'YOUR_API_KEY_HERE') {
     http_response_code(500);
+    Logger::error('API key not configured');
     echo json_encode(['success' => false, 'error' => 'API key not configured in config.php']);
     exit;
 }
 
 if (empty($config['waba_id']) || $config['waba_id'] === 'YOUR_WABA_ID_HERE') {
     http_response_code(500);
+    Logger::error('WABA ID not configured');
     echo json_encode(['success' => false, 'error' => 'WABA ID not configured in config.php']);
     exit;
 }
@@ -45,6 +50,7 @@ $input = json_decode(file_get_contents('php://input'), true);
 
 if (!$input) {
     http_response_code(400);
+    Logger::error('Invalid JSON input', file_get_contents('php://input'));
     echo json_encode(['success' => false, 'error' => 'Invalid JSON']);
     exit;
 }
@@ -108,6 +114,9 @@ switch ($method) {
         break;
 }
 
+// Log the API request
+Logger::apiRequest($method, $url, $data);
+
 // Execute request
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -117,12 +126,16 @@ curl_close($ch);
 // Handle cURL errors
 if ($error) {
     http_response_code(500);
+    Logger::error("cURL error", $error);
     echo json_encode(['success' => false, 'error' => "cURL error: $error"]);
     exit;
 }
 
 // Parse response
 $responseData = json_decode($response, true);
+
+// Log the API response
+Logger::apiResponse($httpCode, $responseData);
 
 // Return result
 if ($httpCode >= 200 && $httpCode < 300) {
@@ -134,6 +147,8 @@ if ($httpCode >= 200 && $httpCode < 300) {
     } elseif (isset($responseData['error']['message'])) {
         $errorMessage = $responseData['error']['message'];
     }
+    
+    Logger::error("API error: {$errorMessage}", $responseData);
     
     http_response_code($httpCode);
     echo json_encode([
