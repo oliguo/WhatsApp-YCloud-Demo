@@ -8,6 +8,13 @@ const api = {
   baseUrl: 'https://api.ycloud.com/v2',
 
   /**
+   * Check if credentials are configured (always true since they're server-side now)
+   */
+  hasCredentials() {
+    return true; // Credentials are in server-side config.php
+  },
+
+  /**
    * Make API request via PHP proxy
    * @param {string} endpoint - API endpoint
    * @param {object} options - Request options

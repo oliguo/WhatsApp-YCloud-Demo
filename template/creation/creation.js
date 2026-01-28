@@ -1229,13 +1229,6 @@ function buildPayload() {
 async function handleSubmit(e) {
   e.preventDefault();
   
-  // Check credentials
-  if (!api.hasCredentials()) {
-    utils.showToast(t('auth.credentialsRequired'), 'error');
-    document.getElementById('credentials-panel').classList.remove('collapsed');
-    return;
-  }
-  
   // Validate
   const errors = validateForm();
   if (errors.length > 0) {
@@ -1261,7 +1254,7 @@ async function handleSubmit(e) {
     
     // Redirect to list after delay
     setTimeout(() => {
-      utils.navigateTo('../list/index.html');
+      utils.navigateTo('../list/index.php');
     }, 1500);
   } catch (error) {
     utils.showToast(error.message, 'error', 5000);

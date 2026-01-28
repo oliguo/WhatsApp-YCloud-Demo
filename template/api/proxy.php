@@ -98,6 +98,8 @@ switch ($method) {
     case 'POST':
         curl_setopt($ch, CURLOPT_POST, true);
         if ($data) {
+            // Add wabaId to data for template creation
+            $data['wabaId'] = $wabaId;
             // Process template data before sending
             $data = processTemplateData($data);
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
