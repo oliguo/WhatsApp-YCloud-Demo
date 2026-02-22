@@ -1,6 +1,14 @@
 {
   "lastUpdated": "2026-02-22",
   "version": "1.0.0",
-  "totalEntries": 0,
-  "categories": []
+  "totalEntries": 1,
+  "categories": [
+    {
+      "id": "program-logic",
+      "name": "Program Logic",
+      "keywords": ["program logic", "template flow", "ycloud api", "proxy"],
+      "file": "program-logic.md",
+      "count": 1
+    }
+  ]
 }

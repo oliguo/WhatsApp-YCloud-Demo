@@ -1,5 +1,12 @@
 {
   "lastUpdated": "2026-02-22",
   "version": "1.0.0",
-  "skills": []
+  "skills": [
+    {
+      "skillId": "project-logic",
+      "file": "skill-project-logic.md",
+      "keywords": ["program logic", "template flow", "proxy"],
+      "count": 1
+    }
+  ]
 }
